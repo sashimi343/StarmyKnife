@@ -60,15 +60,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="..\..\README.md">
+    <Content Include="..\..\README.md">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </None>
-    <None Update="..\..\LICENSE.txt">
+    </Content>
+    <Content Include="..\..\LICENSE.txt">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </None>
-    <None Update="..\..\CHANGELOG.txt">
+    </Content>
+    <Content Include="..\..\CHANGELOG.md">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
   <Target Name="CreatePluginsDirectory" AfterTargets="Publish">
