@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="StarmyKnife.Views.ChainConverterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:vm="clr-namespace:StarmyKnife.ViewModels"
+    xmlns:uc="clr-namespace:StarmyKnife.UserControls.Views"
+    xmlns:ucvm="clr-namespace:StarmyKnife.UserControls.ViewModels"
+    xmlns:converters="clr-namespace:StarmyKnife.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:properties="clr-namespace:StarmyKnife.Properties"
+    Style="{StaticResource BaseUserControlStyle}"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:ChainConverterViewModel}"
+    d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ErrorsToStringConverter x:Key="ErrorsToStringConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Style="{StaticResource PageTitleStyle}"
+            Margin="{StaticResource MediumLeftMargin}"
+            Text="{x:Static properties:Resources.ChainConverterPageTitle}" />
+        <Grid Grid.Row="1" Margin="{StaticResource MediumLeftRightMargin}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <uc:PluginListComboBox Grid.Row="0"
+                                               Grid.Column="0"
+                                               ItemsSource="{Binding AvailablePlugins}"
+                                               SelectedItem="{Binding SelectedPlugin}"
+                                               TextSearch.TextPath="Name">
+                            <uc:PluginListComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </uc:PluginListComboBox.ItemTemplate>
+                        </uc:PluginListComboBox>
+                        <Button Grid.Row="0" Grid.Column="1" Content="Add" Command="{Binding AddPluginCommand}" />
+                        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <ItemsControl ItemsSource="{Binding PluginBoxes}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <uc:PluginParameterBoxView />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <Button Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Content="{x:Static properties:Resources.ChainConverter_ResetPluginBoxesButton}"
+                                Command="{Binding ResetPluginBoxCommand}"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="4*" />
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0"
+                             Text="{Binding Input, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                             AcceptsTab="True"
+                             AcceptsReturn="True">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding CheckAutoConvertCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBox.ToolTip>
+                            <MultiBinding Converter="{StaticResource ErrorsToStringConverter}">
+                                <Binding Path="(Validation.Errors)" RelativeSource="{RelativeSource Self}"/>
+                            </MultiBinding>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <Button Content="{x:Static properties:Resources.ChainConverter_ConvertButton}"
+                                Width="200"
+                                Command="{Binding ConvertCommand}" />
+                        <CheckBox Content="{x:Static properties:Resources.ChainConverter_AutoConvertCheckBoxLabel}"
+                                  IsChecked="{Binding AutoConvertEnabled}" />
+                        <Button Content="{x:Static properties:Resources.ChainConverter_ClearInputButton}"
+                                Width="200"
+                                Command="{Binding ClearInputCommand}" />
+                    </StackPanel>
+                    <TextBox Grid.Row="2" Text="{Binding Output, Mode=OneWay}" IsReadOnly="True" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

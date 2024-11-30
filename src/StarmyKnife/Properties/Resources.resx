@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ShellXPathFinderPage" xml:space="preserve">
+    <value>XPathFinder</value>
+  </data>
+  <data name="XPathFinderPageTitle" xml:space="preserve">
+    <value>XPathFinder</value>
+  </data>
+  <data name="ShellSakuraSnipperPage" xml:space="preserve">
+    <value>SakuraSnipper</value>
+  </data>
+  <data name="SakuraSnipperPageTitle" xml:space="preserve">
+    <value>SakuraSnipper</value>
+  </data>
+  <data name="ShellCsqlPage" xml:space="preserve">
+    <value>Csql</value>
+  </data>
+  <data name="CsqlPageTitle" xml:space="preserve">
+    <value>Csql</value>
+  </data>
+  <data name="ShellSettingsPage" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsPageTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsPageAboutText" xml:space="preserve">
+    <value>StarmyKnife is a utility that performs various operations on strings (conversion, generation, validation, etc.).</value>
+  </data>
+  <data name="SettingsPageAboutTitle" xml:space="preserve">
+    <value>About this application</value>
+  </data>
+  <data name="SettingsPageChooseThemeText" xml:space="preserve">
+    <value>Choose Theme</value>
+  </data>
+  <data name="SettingsPagePersonalizationTitle" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="SettingsPagePrivacyStatementText" xml:space="preserve">
+    <value>Privacy Statement</value>
+  </data>
+  <data name="SettingsPageRadioButtonDarkTheme" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SettingsPageRadioButtonLightTheme" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SettingsPageRadioButtonWindowsDefaultTheme" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ShellExceditPage" xml:space="preserve">
+    <value>SequentialEditor</value>
+  </data>
+  <data name="ExceditPageTitle" xml:space="preserve">
+    <value>Excedit</value>
+  </data>
+  <data name="ShellMemoKeeperPage" xml:space="preserve">
+    <value>MemoKeeper</value>
+  </data>
+  <data name="MemoKeeperPageTitle" xml:space="preserve">
+    <value>MemoKeeper</value>
+  </data>
+  <data name="ShellPrettyValidatorPage" xml:space="preserve">
+    <value>PrettyValidator</value>
+  </data>
+  <data name="PrettyValidatorPageTitle" xml:space="preserve">
+    <value>PrettyValidator</value>
+  </data>
+  <data name="ShellGeneratorPage" xml:space="preserve">
+    <value>Generator</value>
+  </data>
+  <data name="GeneratorPageTitle" xml:space="preserve">
+    <value>Generator</value>
+  </data>
+  <data name="ShellChainConverterPage" xml:space="preserve">
+    <value>ChainConverter</value>
+  </data>
+  <data name="ChainConverterPageTitle" xml:space="preserve">
+    <value>ChainConverter</value>
+  </data>
+  <data name="ShellGoBackButton" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="ShellHamburgerButtonName" xml:space="preserve">
+    <value>Open or close navigation</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>StarmyKnife</value>
+  </data>
+  <data name="Common_UnexpectedErrorHasBeenOccurred" xml:space="preserve">
+    <value>Unexpected error has been occurred: {0}</value>
+  </data>
+  <data name="ChainConverter_AutoConvertCheckBoxLabel" xml:space="preserve">
+    <value>Auto convert</value>
+  </data>
+  <data name="ChainConverter_ClearInputButton" xml:space="preserve">
+    <value>Clear input</value>
+  </data>
+  <data name="ChainConverter_ResetPluginBoxesButton" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ChainConverter_ConvertButton" xml:space="preserve">
+    <value>Convert</value>
+  </data>
+  <data name="Generator_GenerateButton" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="Generator_NumberOfGeneration" xml:space="preserve">
+    <value>Number of generation</value>
+  </data>
+  <data name="Common_MustBeGreaterThanOrEqualsTo" xml:space="preserve">
+    <value>{0} must be greater than or equals to {1}</value>
+  </data>
+  <data name="Generator_ErrorWhileGeneratingString" xml:space="preserve">
+    <value>An error has been occurred while generating string: {0}</value>
+  </data>
+  <data name="PrettyValidator_ExecButton" xml:space="preserve">
+    <value>Exec</value>
+  </data>
+  <data name="PrettyValidator_ModeMinify" xml:space="preserve">
+    <value>Minify</value>
+  </data>
+  <data name="PrettyValidator_ModePrettify" xml:space="preserve">
+    <value>Prettify</value>
+  </data>
+  <data name="PrettyValidator_ModeValidate" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="PrettyValidator_SyntaxOK" xml:space="preserve">
+    <value>Syntax OK</value>
+  </data>
+  <data name="Common_BulletMark" xml:space="preserve">
+    <value>・</value>
+  </data>
+  <data name="XPathFinder_SearchButton" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="XPathFinder_LabelInputXml" xml:space="preserve">
+    <value>XML:</value>
+  </data>
+  <data name="XPathFinder_LabelXPath" xml:space="preserve">
+    <value>XPath:</value>
+  </data>
+  <data name="XPathFinder_LabelSearchResults" xml:space="preserve">
+    <value>Search results:</value>
+  </data>
+  <data name="SettingsPageChainConverterTitle" xml:space="preserve">
+    <value>ChainConverter</value>
+  </data>
+  <data name="SettingsPageChainConverterEnableAutoConvertByDefault" xml:space="preserve">
+    <value>Enable auto convert by default (take effect after restart)</value>
+  </data>
+</root>

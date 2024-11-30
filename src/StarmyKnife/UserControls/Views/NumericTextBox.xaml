@@ -1,0 +1,14 @@
+﻿<TextBox x:Class="StarmyKnife.UserControls.Views.NumericTextBox"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         InputMethod.IsInputMethodEnabled="False"
+         PreviewTextInput="TextBox_PreviewTextInput"
+         CommandManager.PreviewExecuted="TextBox_PreviewExecuted"
+         PreviewKeyDown="TextBox_PreviewKeyDown"
+         LostFocus="TextBox_LostFocus"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:local="clr-namespace:StarmyKnife.UserControls.Views"
+         mc:Ignorable="d" 
+         d:DesignHeight="450" d:DesignWidth="800">
+</TextBox>
