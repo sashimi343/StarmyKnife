@@ -55,7 +55,9 @@ public partial class App : PrismApplication
 
         // Register external plugins
         var appConfig = Container.Resolve<AppConfig>();
-        RegisterExternalPlugins(appConfig.PluginsDirectory);
+        var appRootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var pluginsDir = Path.Combine(appRootDir, appConfig.PluginsDirectory);
+        RegisterExternalPlugins(pluginsDir);
 
         base.OnInitialized();
         await Task.CompletedTask;
@@ -135,12 +137,24 @@ public partial class App : PrismApplication
 
         var pluginDllFiles = Directory.GetFiles(pluginsDir, "*.dll", SearchOption.TopDirectoryOnly);
 
+        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+        {
+            var requestedAssembyName = new AssemblyName(args.Name);
+            var coreAssembly = typeof(IPlugin).Assembly;
+            if (requestedAssembyName.Name == coreAssembly.GetName().Name)
+            {
+                return coreAssembly;
+            }
+
+            return null;
+        };
+
         foreach (var pluginDllFile in pluginDllFiles)
         {
             var assembly = Assembly.LoadFrom(pluginDllFile);
             var types = assembly.GetTypes();
 
-            if (types.Any(t => t is IPlugin))
+            if (types.Any(t => t.IsSubclassOf(typeof(PluginBase))))
             {
                 pluginLoaderService.LoadPlugins(assembly);
             }
