@@ -7,6 +7,8 @@ namespace StarmyKnife.Services;
 
 public class ApplicationInfoService : IApplicationInfoService
 {
+    public static readonly string UnknownAppVersion = "0.0.0.0";
+
     public ApplicationInfoService()
     {
     }
@@ -14,8 +16,8 @@ public class ApplicationInfoService : IApplicationInfoService
     public Version GetVersion()
     {
         // Set the app version in StarmyKnife > Properties > Package > PackageVersion
-        string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-        var version = FileVersionInfo.GetVersionInfo(assemblyLocation).FileVersion;
-        return new Version(version);
+        var assembly = Assembly.GetExecutingAssembly();
+        var versionAttribute = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
+        return new Version(versionAttribute?.Version ?? UnknownAppVersion);
     }
 }

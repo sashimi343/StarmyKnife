@@ -54,10 +54,7 @@ public partial class App : PrismApplication
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         // Register external plugins
-        var appConfig = Container.Resolve<AppConfig>();
-        var appRootDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        var pluginsDir = Path.Combine(appRootDir, appConfig.PluginsDirectory);
-        RegisterExternalPlugins(pluginsDir);
+        RegisterExternalPlugins();
 
         base.OnInitialized();
         await Task.CompletedTask;
@@ -106,7 +103,7 @@ public partial class App : PrismApplication
 
     private IConfiguration BuildConfiguration()
     {
-        var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        var appLocation = AppDomain.CurrentDomain.BaseDirectory;
         return new ConfigurationBuilder()
             .SetBasePath(appLocation)
             .AddJsonFile("appsettings.json")
@@ -122,42 +119,98 @@ public partial class App : PrismApplication
 
     private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        // TODO: Please log and handle the exception as appropriate to your scenario
-        // For more info see https://docs.microsoft.com/dotnet/api/system.windows.application.dispatcherunhandledexception?view=netcore-3.0
+        var crashLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"crashlog_{DateTime.Now:yyyyMMddHHmmssfff}.log");
+
+        if (WriteCrashLog(crashLogPath, e.Exception))
+        {
+            MessageBox.Show($"An unhandled exception occurred. The crash log has been saved to {crashLogPath}.", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        else
+        {
+            MessageBox.Show("An unhandled exception occurred: " + e.Exception.ToString(), "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
-    private void RegisterExternalPlugins(string pluginsDir)
+    private string[] GetFilesInPluginDirectory()
     {
-        var pluginLoaderService = Container.Resolve<IPluginLoaderService>();
+        var appConfig = Container.Resolve<AppConfig>();
+        var pluginsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, appConfig.PluginsDirectory);
 
         if (!Directory.Exists(pluginsDir))
         {
-            return;
+            return [];
         }
 
-        var pluginDllFiles = Directory.GetFiles(pluginsDir, "*.dll", SearchOption.TopDirectoryOnly);
+        return Directory.GetFiles(pluginsDir, "*.dll", SearchOption.TopDirectoryOnly);
+    }
 
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+    private void RegisterExternalPlugins()
+    {
+        try
         {
-            var requestedAssembyName = new AssemblyName(args.Name);
-            var coreAssembly = typeof(IPlugin).Assembly;
-            if (requestedAssembyName.Name == coreAssembly.GetName().Name)
+            var pluginLoaderService = Container.Resolve<IPluginLoaderService>();
+            var pluginDllFiles = GetFilesInPluginDirectory();
+
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
-                return coreAssembly;
-            }
+                var requestedAssembyName = new AssemblyName(args.Name);
+                var coreAssembly = typeof(IPlugin).Assembly;
+                if (requestedAssembyName.Name == coreAssembly.GetName().Name)
+                {
+                    return coreAssembly;
+                }
 
-            return null;
-        };
+                return null;
+            };
 
-        foreach (var pluginDllFile in pluginDllFiles)
-        {
-            var assembly = Assembly.LoadFrom(pluginDllFile);
-            var types = assembly.GetTypes();
-
-            if (types.Any(t => t.IsSubclassOf(typeof(PluginBase))))
+            foreach (var pluginDllFile in pluginDllFiles)
             {
-                pluginLoaderService.LoadPlugins(assembly);
+                var assembly = Assembly.LoadFrom(pluginDllFile);
+                var types = assembly.GetTypes();
+
+                if (types.Any(t => t.IsSubclassOf(typeof(PluginBase))))
+                {
+                    pluginLoaderService.LoadPlugins(assembly);
+                }
             }
         }
+        catch (Exception e)
+        {
+            MessageBox.Show("Failed to load external plugins: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private bool WriteCrashLog(string crashLogPath, Exception exception)
+    {
+        var success = false;
+
+        try
+        {
+            var sb = new StringBuilder();
+            var appInfoService = Container.Resolve<IApplicationInfoService>();
+            var filesInPluginsDir = GetFilesInPluginDirectory();
+
+            sb.AppendLine("Basic Info ===============================================================");
+            sb.AppendFormat("Timestamp: {0}{1}", DateTime.Now, Environment.NewLine);
+            sb.AppendFormat("App version: {0}{1}", appInfoService.GetVersion(), Environment.NewLine);
+            sb.AppendFormat("OS version: {0}{1}", Environment.OSVersion.VersionString, Environment.NewLine);
+            sb.AppendLine("Plugins ==================================================================");
+            foreach (var file in filesInPluginsDir)
+            {
+                sb.AppendLine(Path.GetFileName(file));
+            }
+            sb.AppendLine("Stack trace ==============================================================");
+            sb.AppendLine(exception.ToString());
+
+            File.WriteAllText(crashLogPath, sb.ToString());
+
+            success = true;
+        }
+        catch
+        {
+            success = false;
+        }
+
+        return success;
     }
 }
