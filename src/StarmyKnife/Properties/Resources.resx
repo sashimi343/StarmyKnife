@@ -124,10 +124,10 @@
     <value>ListConverter</value>
   </data>
   <data name="ShellXPathFinderPage" xml:space="preserve">
-    <value>XPathFinder</value>
+    <value>*PathFinder</value>
   </data>
   <data name="XPathFinderPageTitle" xml:space="preserve">
-    <value>XPathFinder</value>
+    <value>*PathFinder</value>
   </data>
   <data name="ShellCsqlPage" xml:space="preserve">
     <value>Csql</value>
@@ -240,14 +240,8 @@
   <data name="XPathFinder_SearchButton" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="XPathFinder_LabelInputXml" xml:space="preserve">
-    <value>XML:</value>
-  </data>
-  <data name="XPathFinder_LabelXPath" xml:space="preserve">
-    <value>XPath:</value>
-  </data>
   <data name="XPathFinder_LabelSearchResults" xml:space="preserve">
-    <value>Search results:</value>
+    <value>Search results</value>
   </data>
   <data name="SettingsPageChainConverterTitle" xml:space="preserve">
     <value>ChainConverter</value>

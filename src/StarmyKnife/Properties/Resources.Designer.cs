@@ -493,7 +493,7 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   XPathFinder に類似しているローカライズされた文字列を検索します。
+        ///   *PathFinder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShellXPathFinderPage {
             get {
@@ -502,29 +502,11 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   XML: に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string XPathFinder_LabelInputXml {
-            get {
-                return ResourceManager.GetString("XPathFinder_LabelInputXml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search results: に類似しているローカライズされた文字列を検索します。
+        ///   Search results に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string XPathFinder_LabelSearchResults {
             get {
                 return ResourceManager.GetString("XPathFinder_LabelSearchResults", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   XPath: に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string XPathFinder_LabelXPath {
-            get {
-                return ResourceManager.GetString("XPathFinder_LabelXPath", resourceCulture);
             }
         }
         
@@ -538,7 +520,7 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   XPathFinder に類似しているローカライズされた文字列を検索します。
+        ///   *PathFinder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string XPathFinderPageTitle {
             get {

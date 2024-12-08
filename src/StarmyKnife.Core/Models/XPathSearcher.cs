@@ -4,9 +4,11 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
+using StarmyKnife.Core.Contracts.Models;
+
 namespace StarmyKnife.Core.Models
 {
-    public class XPathSearcher
+    public class XPathSearcher : IPathSearcher
     {
         private readonly XmlDocument _xml;
 
@@ -21,7 +23,7 @@ namespace StarmyKnife.Core.Models
             _xml.LoadXml(RemoveAllNamespaces(xml));
         }
 
-        public bool TryLoadXml(string xml, out string error)
+        public bool TryLoadInput(string xml, out string error)
         {
             try
             {
@@ -62,7 +64,7 @@ namespace StarmyKnife.Core.Models
             return nodeTexts;
         }
 
-        public static string RemoveAllNamespaces(string xmlDocument)
+        private static string RemoveAllNamespaces(string xmlDocument)
         {
             XElement xmlDocumentWithoutNs = RemoveAllNamespaces(XElement.Parse(xmlDocument));
 
