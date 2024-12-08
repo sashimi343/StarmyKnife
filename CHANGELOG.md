@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [0.2.0.0] - 2024-12-08
+
+### Added
+
+* List Converter: multi-input-multi-output string conversion tool
+
+### Changed
+
+* Add JSONpath search support to XPathFinder
+
+### Fixed
+
+* Fix a bug that `replace text (simple substitution)` converter cannot replace to tabs or newlines
+
 ## [0.1.0.0] - 2024-11-30
 
 ### Added
