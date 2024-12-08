@@ -133,6 +133,15 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
+        ///   No parameters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_NoParameters {
+            get {
+                return ResourceManager.GetString("Common_NoParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Unexpected error has been occurred: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_UnexpectedErrorHasBeenOccurred {

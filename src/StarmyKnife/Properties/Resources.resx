@@ -273,4 +273,7 @@
   <data name="ListConverter_ColumnOutput" xml:space="preserve">
     <value>Output</value>
   </data>
+  <data name="Common_NoParameters" xml:space="preserve">
+    <value>No parameters</value>
+  </data>
 </root>

@@ -37,7 +37,7 @@ namespace StarmyKnife.UserControls.ViewModels
         public IPlugin Plugin => _pluginHost.Plugin;
         public PluginParameterCollection Parameters => _parameters;
 
-        public string Name => _pluginHost.Name;
+        public string Name => $"[{_pluginHost.Name}]";
 
         public bool IsDeletable { get; set; } = false;
 
@@ -46,6 +46,14 @@ namespace StarmyKnife.UserControls.ViewModels
             get
             {
                 return IsDeletable ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public Visibility NoParametersLabelVisibility
+        {
+            get
+            {
+                return _parameterViewModels.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
