@@ -2,9 +2,9 @@
 
 namespace StarmyKnife.Views;
 
-public partial class ExceditPage : UserControl
+public partial class ListConverterPage : UserControl
 {
-    public ExceditPage()
+    public ListConverterPage()
     {
         InitializeComponent();
     }

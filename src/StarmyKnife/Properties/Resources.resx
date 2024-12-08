@@ -117,17 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ShellListConverterPage" xml:space="preserve">
+    <value>ListConverter</value>
+  </data>
+  <data name="ListConverterPageTitle" xml:space="preserve">
+    <value>ListConverter</value>
+  </data>
   <data name="ShellXPathFinderPage" xml:space="preserve">
     <value>XPathFinder</value>
   </data>
   <data name="XPathFinderPageTitle" xml:space="preserve">
     <value>XPathFinder</value>
-  </data>
-  <data name="ShellSakuraSnipperPage" xml:space="preserve">
-    <value>SakuraSnipper</value>
-  </data>
-  <data name="SakuraSnipperPageTitle" xml:space="preserve">
-    <value>SakuraSnipper</value>
   </data>
   <data name="ShellCsqlPage" xml:space="preserve">
     <value>Csql</value>
@@ -164,18 +164,6 @@
   </data>
   <data name="SettingsPageRadioButtonWindowsDefaultTheme" xml:space="preserve">
     <value>Default</value>
-  </data>
-  <data name="ShellExceditPage" xml:space="preserve">
-    <value>SequentialEditor</value>
-  </data>
-  <data name="ExceditPageTitle" xml:space="preserve">
-    <value>Excedit</value>
-  </data>
-  <data name="ShellMemoKeeperPage" xml:space="preserve">
-    <value>MemoKeeper</value>
-  </data>
-  <data name="MemoKeeperPageTitle" xml:space="preserve">
-    <value>MemoKeeper</value>
   </data>
   <data name="ShellPrettyValidatorPage" xml:space="preserve">
     <value>PrettyValidator</value>
@@ -266,5 +254,29 @@
   </data>
   <data name="SettingsPageChainConverterEnableAutoConvertByDefault" xml:space="preserve">
     <value>Enable auto convert by default (take effect after restart)</value>
+  </data>
+  <data name="ListConverter_Tab_Converter" xml:space="preserve">
+    <value>Converter</value>
+  </data>
+  <data name="ListConverter_Tab_InputOutput" xml:space="preserve">
+    <value>Input / Output</value>
+  </data>
+  <data name="ListConverter_SetFromClipboardButton" xml:space="preserve">
+    <value>Set from clipboard</value>
+  </data>
+  <data name="ListConverter_CopyToClipboardButton" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="ListConverter_ConvertButton" xml:space="preserve">
+    <value>Convert</value>
+  </data>
+  <data name="ListConverter_ClearInputButton" xml:space="preserve">
+    <value>Clear input</value>
+  </data>
+  <data name="ListConverter_ColumnInput" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="ListConverter_ColumnOutput" xml:space="preserve">
+    <value>Output</value>
   </data>
 </root>

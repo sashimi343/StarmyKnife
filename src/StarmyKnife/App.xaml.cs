@@ -80,10 +80,10 @@ public partial class App : PrismApplication
         containerRegistry.Register<IAppPropertiesWrapper, AppPropertiesWrapper>();
 
         // Views
+        containerRegistry.RegisterForNavigation<ListConverterPage, ListConverterViewModel>(PageKeys.ListConverter);
         containerRegistry.RegisterForNavigation<XPathFinderPage, XPathFinderViewModel>(PageKeys.XPathFinder);
         containerRegistry.RegisterForNavigation<CsqlPage, CsqlViewModel>(PageKeys.Csql);
         containerRegistry.RegisterForNavigation<SettingsPage, SettingsViewModel>(PageKeys.Settings);
-        containerRegistry.RegisterForNavigation<ExceditPage, ExceditViewModel>(PageKeys.Excedit);
         containerRegistry.RegisterForNavigation<PrettyValidatorPage, PrettyValidatorViewModel>(PageKeys.PrettyValidator);
         containerRegistry.RegisterForNavigation<GeneratorPage, GeneratorViewModel>(PageKeys.Generator);
         containerRegistry.RegisterForNavigation<ChainConverterPage, ChainConverterViewModel>(PageKeys.ChainConverter);

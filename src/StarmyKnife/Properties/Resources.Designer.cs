@@ -151,15 +151,6 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   Excedit に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ExceditPageTitle {
-            get {
-                return ResourceManager.GetString("ExceditPageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   An error has been occurred while generating string: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Generator_ErrorWhileGeneratingString {
@@ -196,11 +187,83 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   MemoKeeper に類似しているローカライズされた文字列を検索します。
+        ///   Clear input に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MemoKeeperPageTitle {
+        public static string ListConverter_ClearInputButton {
             get {
-                return ResourceManager.GetString("MemoKeeperPageTitle", resourceCulture);
+                return ResourceManager.GetString("ListConverter_ClearInputButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Input に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_ColumnInput {
+            get {
+                return ResourceManager.GetString("ListConverter_ColumnInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_ColumnOutput {
+            get {
+                return ResourceManager.GetString("ListConverter_ColumnOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Convert に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_ConvertButton {
+            get {
+                return ResourceManager.GetString("ListConverter_ConvertButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy to clipboard に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_CopyToClipboardButton {
+            get {
+                return ResourceManager.GetString("ListConverter_CopyToClipboardButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set from clipboard に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_SetFromClipboardButton {
+            get {
+                return ResourceManager.GetString("ListConverter_SetFromClipboardButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Converter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_Tab_Converter {
+            get {
+                return ResourceManager.GetString("ListConverter_Tab_Converter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Input / Output に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverter_Tab_InputOutput {
+            get {
+                return ResourceManager.GetString("ListConverter_Tab_InputOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ListConverter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ListConverterPageTitle {
+            get {
+                return ResourceManager.GetString("ListConverterPageTitle", resourceCulture);
             }
         }
         
@@ -255,15 +318,6 @@ namespace StarmyKnife.Properties {
         public static string PrettyValidatorPageTitle {
             get {
                 return ResourceManager.GetString("PrettyValidatorPageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   SakuraSnipper に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SakuraSnipperPageTitle {
-            get {
-                return ResourceManager.GetString("SakuraSnipperPageTitle", resourceCulture);
             }
         }
         
@@ -385,15 +439,6 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   SequentialEditor に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ShellExceditPage {
-            get {
-                return ResourceManager.GetString("ShellExceditPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Generator に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShellGeneratorPage {
@@ -421,11 +466,11 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
-        ///   MemoKeeper に類似しているローカライズされた文字列を検索します。
+        ///   ListConverter に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ShellMemoKeeperPage {
+        public static string ShellListConverterPage {
             get {
-                return ResourceManager.GetString("ShellMemoKeeperPage", resourceCulture);
+                return ResourceManager.GetString("ShellListConverterPage", resourceCulture);
             }
         }
         
@@ -435,15 +480,6 @@ namespace StarmyKnife.Properties {
         public static string ShellPrettyValidatorPage {
             get {
                 return ResourceManager.GetString("ShellPrettyValidatorPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   SakuraSnipper に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ShellSakuraSnipperPage {
-            get {
-                return ResourceManager.GetString("ShellSakuraSnipperPage", resourceCulture);
             }
         }
         

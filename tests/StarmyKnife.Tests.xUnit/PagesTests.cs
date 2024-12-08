@@ -59,14 +59,6 @@ public class PagesTests
         Assert.NotNull(vm);
     }
 
-    // TODO: Add tests for functionality you add to SequentialEditorViewModel.
-    [Fact]
-    public void TestSequentialEditorViewModelCreation()
-    {
-        var vm = _container.Resolve<ExceditViewModel>();
-        Assert.NotNull(vm);
-    }
-
     // TODO: Add tests for functionality you add to SettingsViewModel.
     [Fact]
     public void TestSettingsViewModelCreation()

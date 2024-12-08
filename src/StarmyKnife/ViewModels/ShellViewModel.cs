@@ -44,11 +44,10 @@ public class ShellViewModel : BindableBase
         new HamburgerMenuIconItem() { Label = Resources.ShellChainConverterPage, Icon = PackIconKind.FileArrowLeftRight, Tag = PageKeys.ChainConverter },
         new HamburgerMenuIconItem() { Label = Resources.ShellGeneratorPage, Icon = PackIconKind.TextBoxPlus, Tag = PageKeys.Generator },
         new HamburgerMenuIconItem() { Label = Resources.ShellPrettyValidatorPage, Icon = PackIconKind.CodeTagsCheck, Tag = PageKeys.PrettyValidator },
-        // TODO: Implement Excedit
-        //new HamburgerMenuIconItem() { Label = Resources.ShellExceditPage, Icon = PackIconKind.Table, Tag = PageKeys.Excedit },
         // TODO: Implement Csql
         //new HamburgerMenuIconItem() { Label = Resources.ShellCsqlPage, Icon = PackIconKind.CommaCircle, Tag = PageKeys.Csql },
         new HamburgerMenuIconItem() { Label = Resources.ShellXPathFinderPage, Icon = PackIconKind.TextSearchVariant, Tag = PageKeys.XPathFinder },
+        new HamburgerMenuIconItem() { Label = Resources.ShellListConverterPage, Icon = PackIconKind.TableArrowRight, Tag = PageKeys.ListConverter },
     };
 
     public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()

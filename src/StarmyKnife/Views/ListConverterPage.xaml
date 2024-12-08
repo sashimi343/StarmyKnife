@@ -1,0 +1,140 @@
+﻿<UserControl
+    x:Class="StarmyKnife.Views.ListConverterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:vm="clr-namespace:StarmyKnife.ViewModels"
+    xmlns:uc="clr-namespace:StarmyKnife.UserControls.Views"
+    xmlns:ucvm="clr-namespace:StarmyKnife.UserControls.ViewModels"
+    xmlns:converters="clr-namespace:StarmyKnife.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:properties="clr-namespace:StarmyKnife.Properties"
+    Style="{StaticResource BaseUserControlStyle}"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:ListConverterViewModel}"
+    d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ErrorsToStringConverter x:Key="ErrorsToStringConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Style="{StaticResource PageTitleStyle}"
+            Margin="{StaticResource MediumLeftMargin}"
+            Text="{x:Static properties:Resources.ListConverterPageTitle}" />
+        <Grid Grid.Row="1" Margin="{StaticResource MediumLeftRightMargin}">
+            <TabControl Style="{StaticResource TabControlStyle}">
+                <TabItem Style="{StaticResource TabItemStyle}" Header="{x:Static properties:Resources.ListConverter_Tab_Converter}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <uc:PluginListComboBox Grid.Row="0"
+                                       Grid.Column="0"
+                                       ItemsSource="{Binding AvailablePlugins}"
+                                       SelectedItem="{Binding SelectedPlugin}"
+                                       TextSearch.TextPath="Name">
+                            <uc:PluginListComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </uc:PluginListComboBox.ItemTemplate>
+                        </uc:PluginListComboBox>
+                        <Button Grid.Row="0" Grid.Column="1" Content="Add" Command="{Binding AddPluginCommand}" />
+                        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <ItemsControl ItemsSource="{Binding PluginBoxes}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <uc:PluginParameterBoxView />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <Button Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Content="{x:Static properties:Resources.ChainConverter_ResetPluginBoxesButton}"
+                        Command="{Binding ResetPluginBoxCommand}"/>
+                    </Grid>
+
+                </TabItem>
+                <TabItem Style="{StaticResource TabItemStyle}" Header="{x:Static properties:Resources.ListConverter_Tab_InputOutput}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="5*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                            <Button Content="{x:Static properties:Resources.ListConverter_SetFromClipboardButton}"
+                                    Width="200"
+                                    Command="{Binding SetInputFromClipboardCommand}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                            <Button Content="{x:Static properties:Resources.ListConverter_CopyToClipboardButton}"
+                                    Width="200"
+                                    Command="{Binding CopyOutputToClipboardCommand}" />
+                        </StackPanel>
+                        <DataGrid Grid.Row="1" Grid.Column="0"
+                                  ItemsSource="{Binding InputItems}"
+                                  GridLinesVisibility="All"
+                                  AutoGenerateColumns="False"
+                                  CanUserSortColumns="False"
+                                  CanUserAddRows="True"
+                                  CanUserDeleteRows="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnInput}"
+                                                    Width="*"
+                                                    Binding="{Binding Value}" />
+                            </DataGrid.Columns>
+                            <DataGrid.ToolTip>
+                                <MultiBinding Converter="{StaticResource ErrorsToStringConverter}">
+                                    <Binding Path="(Validation.Errors)" RelativeSource="{RelativeSource Self}"/>
+                                </MultiBinding>
+                            </DataGrid.ToolTip>
+                        </DataGrid>
+                        <DataGrid Grid.Row="1" Grid.Column="1"
+                                  ItemsSource="{Binding OutputItems}"
+                                  GridLinesVisibility="All"
+                                  AutoGenerateColumns="False"
+                                  CanUserSortColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnOutput}"
+                                                    Width="*"
+                                                    Binding="{Binding Value}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                            <Button Content="{x:Static properties:Resources.ListConverter_ConvertButton}"
+                                    Width="200"
+                                    Command="{Binding ConvertAllCommand}" />
+                            <Button Content="{x:Static properties:Resources.ListConverter_ClearInputButton}"
+                                    Width="200"
+                                    Command="{Binding ClearInputCommand}" />
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>
+    
