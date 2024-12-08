@@ -24,20 +24,20 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
 
             var options = GetRegexOptions(parameters);
             Regex pattern;
-            Regex replacement;
+            string replacement;
 
             if (useRegex)
             {
                 pattern = new Regex(patternText, options);
-                replacement = new Regex(replacementText, options);
+                replacement = UnescapeSequence(replacementText);
             }
             else
             {
                 pattern = new Regex(Regex.Escape(patternText), options);
-                replacement = new Regex(Regex.Escape(replacementText), options);
+                replacement = replacementText;
             }
 
-            var result = pattern.Replace(input, replacementText);
+            var result = pattern.Replace(input, replacement);
 
             return PluginInvocationResult.OfSuccess(result);
         }
@@ -59,6 +59,18 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             }
 
             return options;
+        }
+
+        private string UnescapeSequence(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+
+            return input.Replace("\\n", "\n")
+                        .Replace("\\r", "\r")
+                        .Replace("\\t", "\t");
         }
     }
 }
