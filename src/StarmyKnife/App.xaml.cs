@@ -174,9 +174,9 @@ public partial class App : PrismApplication
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            MessageBox.Show("Failed to load external plugins: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            // Ignore exceptions
         }
     }
 
