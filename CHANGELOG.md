@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [0.2.1.0] - 2025-03-22
+
+### Added
+
+* Generator plugins: RandomTextGenerator
+
+### Changed
+
+* Improove a style of PluginParameterBox view
+* PluginBoxes are no longer selected when focusing on the Converter tab in ListConverter
+
 ## [0.2.0.0] - 2024-12-08
 
 ### Added
