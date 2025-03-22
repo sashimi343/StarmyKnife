@@ -7,6 +7,7 @@
     xmlns:uc="clr-namespace:StarmyKnife.UserControls.Views"
     xmlns:ucvm="clr-namespace:StarmyKnife.UserControls.ViewModels"
     xmlns:converters="clr-namespace:StarmyKnife.Converters"
+    xmlns:helpers="clr-namespace:StarmyKnife.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:properties="clr-namespace:StarmyKnife.Properties"
@@ -27,7 +28,7 @@
             Margin="{StaticResource MediumLeftMargin}"
             Text="{x:Static properties:Resources.ListConverterPageTitle}" />
         <Grid Grid.Row="1" Margin="{StaticResource MediumLeftRightMargin}">
-            <TabControl Style="{StaticResource TabControlStyle}">
+            <TabControl Style="{StaticResource TabControlStyle}" helpers:TabControlHelper.ClearFocusOnTabChange="True">
                 <TabItem Style="{StaticResource TabItemStyle}" Header="{x:Static properties:Resources.ListConverter_Tab_Converter}">
                     <Grid>
                         <Grid.RowDefinitions>
