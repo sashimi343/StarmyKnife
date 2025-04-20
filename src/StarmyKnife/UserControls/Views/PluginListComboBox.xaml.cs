@@ -40,7 +40,7 @@ namespace StarmyKnife.UserControls.Views
                     {
                         this.Items.Filter = null;
 
-                        if (!_popUp.IsOpen && string.IsNullOrEmpty(_textBox.Text))
+                        if (string.IsNullOrEmpty(_textBox.Text))
                         {
                             this.Items.Filter += obj =>
                             {
@@ -50,23 +50,16 @@ namespace StarmyKnife.UserControls.Views
                             return;
                         }
 
+                        if (!_popUp.IsOpen)
+                        {
+                            _popUp.IsOpen = true;
+                        }
+
                         this.Items.Filter += obj =>
                         {
-                            if (!(obj is PluginHost))
-                            {
-                                return true;
-                            }
-
                             var item = obj as PluginHost;
-                            if (item.Name.Contains(_textBox.Text, StringComparison.OrdinalIgnoreCase))
-                            {
-                                return true;
-                            }
-
-                            return false;
+                            return item?.Name.Contains(_textBox.Text, StringComparison.OrdinalIgnoreCase) ?? false;
                         };
-
-                        _popUp.IsOpen = true;
                     };
 
                     _textBox.GotFocus += delegate
@@ -74,6 +67,14 @@ namespace StarmyKnife.UserControls.Views
                         if (!_popUp.IsOpen)
                         {
                             _popUp.IsOpen = true;
+                        }
+                    };
+
+                    _textBox.LostFocus += delegate
+                    {
+                        if (_popUp.IsOpen)
+                        {
+                            _popUp.IsOpen = false;
                         }
                     };
                 }
