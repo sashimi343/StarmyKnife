@@ -74,6 +74,8 @@ public abstract class SinglePluginPageViewModelBase<TPlugin> : BindableBase, INo
 
     protected ErrorsContainer<string> Errors => _errors;
 
+    protected IEventAggregator EventAggregator => _eventAggregator;
+
     public IEnumerable GetErrors(string propertyName)
     {
         return _errors.GetErrors(propertyName);

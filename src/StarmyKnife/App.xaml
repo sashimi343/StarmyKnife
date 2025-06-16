@@ -25,6 +25,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                 <!-- Override of MahApps.Metro style -->
                 <ResourceDictionary Source="/Styles/TabControl.xaml" />
+                <ResourceDictionary Source="/Styles/LinkButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

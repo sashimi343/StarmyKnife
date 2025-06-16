@@ -27,6 +27,17 @@
                 x:Name="ContentArea"
                 Grid.Row="1"
                 Margin="{StaticResource MediumLeftRightMargin}">
+                
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{StaticResource SubtitleTextStyle}"
+                    Text="{x:Static properties:Resources.SettingsPageGeneralTitle}" />
+                <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                    <CheckBox
+                        IsChecked="{Binding ClickOutputToCopy, Mode=TwoWay}"
+                        Content="{x:Static properties:Resources.SettingsPageGeneralClickOutputToCopy}"
+                        Margin="{StaticResource XSmallTopMargin}" />
+                </StackPanel>
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"

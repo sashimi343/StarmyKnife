@@ -4,7 +4,9 @@ using Prism.Mvvm;
 using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
 using StarmyKnife.Core.Plugins;
+using StarmyKnife.Events;
 using StarmyKnife.Helpers;
+using StarmyKnife.Models;
 using StarmyKnife.UserControls.ViewModels;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -16,13 +18,17 @@ namespace StarmyKnife.ViewModels;
 
 public class GeneratorViewModel : SinglePluginPageViewModelBase<IGenerator>
 {
+    private readonly UserSettings _userSettings;
     private int _numberOfGeneration;
     private string _output;
 
-    public GeneratorViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator) : base(pluginLoader, eventAggregator)
+    public GeneratorViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator, UserSettings userSettings) : base(pluginLoader, eventAggregator)
     {
         NumberOfGeneration = 1;
         GenerateCommand = new DelegateCommand(Generate);
+        _userSettings = userSettings;
+
+        EventAggregator.GetEvent<UserSettingsChangedEvent>().Subscribe(OnUserSettingsChanged);
     }
 
     public int NumberOfGeneration
@@ -52,6 +58,8 @@ public class GeneratorViewModel : SinglePluginPageViewModelBase<IGenerator>
         set { SetProperty(ref _output, value); }
     }
 
+    public bool ClickOutputToCopy => _userSettings.ClickOutputToCopy;
+
     public DelegateCommand GenerateCommand { get; }
 
     private void Generate()
@@ -76,5 +84,13 @@ public class GeneratorViewModel : SinglePluginPageViewModelBase<IGenerator>
             MessageBox.Show(string.Format(Properties.Resources.Generator_ErrorWhileGeneratingString, ex.Message));
         }
 
+    }
+
+    private void OnUserSettingsChanged(string propertyName)
+    {
+        if (propertyName == nameof(_userSettings.ClickOutputToCopy))
+        {
+            RaisePropertyChanged(nameof(_userSettings.ClickOutputToCopy));
+        }
     }
 }

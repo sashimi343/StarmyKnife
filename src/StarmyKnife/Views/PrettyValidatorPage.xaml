@@ -9,6 +9,8 @@
     xmlns:ucvm="clr-namespace:StarmyKnife.UserControls.ViewModels"
     xmlns:converters="clr-namespace:StarmyKnife.Converters"
     xmlns:properties="clr-namespace:StarmyKnife.Properties"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:behaviors="clr-namespace:StarmyKnife.Behaviors"
     Style="{StaticResource BaseUserControlStyle}"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:PrettyValidatorViewModel}"
@@ -67,13 +69,23 @@
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0"
+                <uc:ClipboardButton Grid.Row="0"
+                                    Width="30"
+                                    HorizontalAlignment="Left"
+                                    CopyText="{Binding Output}" />
+                <TextBox Grid.Row="1"
                          Text="{Binding Output}"
                          IsReadOnly="True"
                          TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto" />
+                         VerticalScrollBarVisibility="Auto"
+                         behaviors:CopyToClipboardOnClickBehavior.IsEnabled="{Binding ClickOutputToCopy}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:CopyToClipboardOnClickBehavior />
+                    </i:Interaction.Behaviors>
+                </TextBox>
             </Grid>
         </Grid>
     </Grid>

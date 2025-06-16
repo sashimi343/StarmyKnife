@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+
 using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
 using StarmyKnife.Core.Plugins;
@@ -11,6 +12,9 @@ using StarmyKnife.UserControls.ViewModels;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StarmyKnife.ViewModels;
 
@@ -44,6 +48,8 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         get { return _autoConvertEnabled; }
         set { SetProperty(ref _autoConvertEnabled, value); }
     }
+
+    public bool ClickOutputToCopy => _userSettings.ClickOutputToCopy;
 
     public ObservableCollection<PluginHost> AvailablePlugins
     {
@@ -80,6 +86,7 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         _userSettings = userSettings;
         _eventAggregator = eventAggregator;
         _eventAggregator.GetEvent<PluginParameterBoxChangedEvent>().Subscribe(CheckAutoConvert);
+        _eventAggregator.GetEvent<UserSettingsChangedEvent>().Subscribe(OnUserSettingsChanged);
         _errors = new ErrorsContainer<string>(OnErrorsChanged);
         _pluginLoader = pluginLoader;
 
@@ -185,5 +192,13 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
     {
         PluginBoxes.Clear();
         CheckAutoConvert();
+    }
+
+    private void OnUserSettingsChanged(string propertyName)
+    {
+        if (propertyName == nameof(_userSettings.ClickOutputToCopy))
+        {
+            RaisePropertyChanged(nameof(ClickOutputToCopy));
+        }
     }
 }

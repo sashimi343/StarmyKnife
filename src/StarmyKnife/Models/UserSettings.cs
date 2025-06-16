@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using StarmyKnife.Contracts.Services;
+using StarmyKnife.Events;
 
 namespace StarmyKnife.Models
 {
@@ -21,6 +22,12 @@ namespace StarmyKnife.Models
         {
             get { return GetSettings<bool>(nameof(EnableAutoConvertByDefault)); }
             set { SetSettings<bool>(nameof(EnableAutoConvertByDefault), value); }
+        }
+
+        public bool ClickOutputToCopy
+        {
+            get { return GetSettings<bool>(nameof(ClickOutputToCopy)); }
+            set { SetSettings<bool>(nameof(ClickOutputToCopy), value); }
         }
 
         private T GetSettings<T>(string key, T defaultValue = default)

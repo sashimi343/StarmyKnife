@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using MaterialDesignThemes.Wpf;
+
+using Prism.Commands;
 using Prism.Mvvm;
 
 using StarmyKnife.Core.Contracts.Models;
@@ -6,11 +8,14 @@ using StarmyKnife.Core.Models;
 using StarmyKnife.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace StarmyKnife.ViewModels;
 
 public class XPathFinderViewModel : BindableBase
 {
+    private const int PopupDisplaySeconds = 2;
+
     private PathType _selectedPathType;
     private string _inputXml;
     private string _xpath;
@@ -62,6 +67,7 @@ public class XPathFinderViewModel : BindableBase
     }
 
     public DelegateCommand SearchCommand { get; }
+    public DelegateCommand CopyToClipboardCommand { get; }
 
     private void Search()
     {

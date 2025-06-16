@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:properties="clr-namespace:StarmyKnife.Properties"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     Style="{StaticResource BaseUserControlStyle}"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:XPathFinderViewModel}"
@@ -21,6 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock
             Style="{StaticResource PageTitleStyle}"
@@ -37,7 +39,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="100" />
+                <ColumnDefinition Width="Auto" MinWidth="120" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
@@ -68,7 +70,10 @@
             <Button Grid.Row="2" Grid.Column="2"
                     Content="{x:Static properties:Resources.XPathFinder_SearchButton}"
                     Command="{Binding SearchCommand}" />
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Content="{x:Static properties:Resources.XPathFinder_LabelSearchResults}" />
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                <uc:ClipboardButton CopyText="{Binding SearchResults}" IsLinkStyle="True" />
+                <Label Content="{x:Static properties:Resources.XPathFinder_LabelSearchResults}" />
+            </StackPanel>
             <ListBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding SearchResults}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

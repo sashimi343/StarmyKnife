@@ -276,4 +276,19 @@
   <data name="Common_NoParameters" xml:space="preserve">
     <value>No parameters</value>
   </data>
+  <data name="Common_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Common_CopyToClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="Common_CopiedToClipboardMessage" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="SettingsPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingsPageGeneralClickOutputToCopy" xml:space="preserve">
+    <value>Click on output text box to copy</value>
+  </data>
 </root>

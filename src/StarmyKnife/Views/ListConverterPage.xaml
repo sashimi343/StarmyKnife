@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:properties="clr-namespace:StarmyKnife.Properties"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     Style="{StaticResource BaseUserControlStyle}"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:ListConverterViewModel}"
@@ -53,7 +54,12 @@
                                 </DataTemplate>
                             </uc:PluginListComboBox.ItemTemplate>
                         </uc:PluginListComboBox>
-                        <Button Grid.Row="0" Grid.Column="1" Content="Add" Command="{Binding AddPluginCommand}" />
+                        <Button Grid.Row="0" Grid.Column="1" Command="{Binding AddPluginCommand}">
+                            <materialDesign:PackIcon Kind="Plus" />
+                            <Button.ToolTip>
+                                <TextBlock Text="{x:Static properties:Resources.Common_Add}" />
+                            </Button.ToolTip>
+                        </Button>
                         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                             <ItemsControl ItemsSource="{Binding PluginBoxes}">
                                 <ItemsControl.ItemTemplate>

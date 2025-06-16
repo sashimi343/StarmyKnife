@@ -115,11 +115,38 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
+        ///   Add に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_Add {
+            get {
+                return ResourceManager.GetString("Common_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ・ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_BulletMark {
             get {
                 return ResourceManager.GetString("Common_BulletMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copied! に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_CopiedToClipboardMessage {
+            get {
+                return ResourceManager.GetString("Common_CopiedToClipboardMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy to clipboard に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_CopyToClipboard {
+            get {
+                return ResourceManager.GetString("Common_CopyToClipboard", resourceCulture);
             }
         }
         
@@ -372,6 +399,24 @@ namespace StarmyKnife.Properties {
         public static string SettingsPageChooseThemeText {
             get {
                 return ResourceManager.GetString("SettingsPageChooseThemeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Click on output text box to copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingsPageGeneralClickOutputToCopy {
+            get {
+                return ResourceManager.GetString("SettingsPageGeneralClickOutputToCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingsPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("SettingsPageGeneralTitle", resourceCulture);
             }
         }
         

@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 
 using StarmyKnife.Contracts.Services;
+using StarmyKnife.Events;
 using StarmyKnife.Models;
 
 namespace StarmyKnife.ViewModels;
@@ -16,6 +17,7 @@ public class SettingsViewModel : BindableBase, INavigationAware
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ISystemService _systemService;
     private readonly IApplicationInfoService _applicationInfoService;
+    private readonly IEventAggregator _eventAggregator;
 
     private readonly UserSettings _userSettings;
     private AppTheme _theme;
@@ -36,27 +38,45 @@ public class SettingsViewModel : BindableBase, INavigationAware
         set { SetProperty(ref _versionDescription, value); }
     }
 
+    #region "User settings"
+    public bool ClickOutputToCopy
+    {
+        get { return _userSettings.ClickOutputToCopy; }
+        set
+        {
+            _userSettings.ClickOutputToCopy = value;
+            RaiseUserSettingsChanged(nameof(ClickOutputToCopy));
+        }
+    }
+
     public bool EnableAutoConvertByDefault
     {
         get { return _userSettings.EnableAutoConvertByDefault; }
         set
         {
             _userSettings.EnableAutoConvertByDefault = value;
-            RaisePropertyChanged();
+            RaiseUserSettingsChanged(nameof(EnableAutoConvertByDefault));
         }
     }
+    #endregion
 
     public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new DelegateCommand<string>(OnSetTheme));
 
     public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new DelegateCommand(OnPrivacyStatement));
 
-    public SettingsViewModel(AppConfig appConfig, UserSettings userSettings, IThemeSelectorService themeSelectorService, ISystemService systemService, IApplicationInfoService applicationInfoService)
+    public SettingsViewModel(AppConfig appConfig,
+                             UserSettings userSettings,
+                             IThemeSelectorService themeSelectorService,
+                             ISystemService systemService,
+                             IApplicationInfoService applicationInfoService,
+                             IEventAggregator eventAggregator)
     {
         _appConfig = appConfig;
         _userSettings = userSettings;
         _themeSelectorService = themeSelectorService;
         _systemService = systemService;
         _applicationInfoService = applicationInfoService;
+        _eventAggregator = eventAggregator;
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext)
@@ -80,4 +100,10 @@ public class SettingsViewModel : BindableBase, INavigationAware
 
     public bool IsNavigationTarget(NavigationContext navigationContext)
         => true;
+
+    private void RaiseUserSettingsChanged(string propertyName)
+    {
+        _eventAggregator.GetEvent<UserSettingsChangedEvent>().Publish(propertyName);
+        RaisePropertyChanged(propertyName);
+    }
 }

@@ -4,6 +4,8 @@ using Prism.Mvvm;
 using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
 using StarmyKnife.Core.Plugins;
+using StarmyKnife.Events;
+using StarmyKnife.Models;
 using StarmyKnife.UserControls.ViewModels;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -14,6 +16,7 @@ namespace StarmyKnife.ViewModels;
 
 public class PrettyValidatorViewModel : SinglePluginPageViewModelBase<IPrettyValidator>
 {
+    private readonly UserSettings _userSettings;
     private string _input;
     private string _output;
     private bool _modeValidateOnlyChecked;
@@ -22,12 +25,15 @@ public class PrettyValidatorViewModel : SinglePluginPageViewModelBase<IPrettyVal
     private bool _canPrettify;
     private bool _canMinify;
 
-    public PrettyValidatorViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator) : base(pluginLoader, eventAggregator)
+    public PrettyValidatorViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator, UserSettings userSettings) : base(pluginLoader, eventAggregator)
     {
+        _userSettings = userSettings;
         _input = "";
         _output = "";
 
         ExecCommand = new DelegateCommand(Exec);
+
+        EventAggregator.GetEvent<UserSettingsChangedEvent>().Subscribe(OnUserSettingsChanged);
 
         OnSelectedPluginChanged();
     }
@@ -73,6 +79,8 @@ public class PrettyValidatorViewModel : SinglePluginPageViewModelBase<IPrettyVal
         get { return _canMinify; }
         set { SetProperty(ref _canMinify, value); }
     }
+
+    public bool ClickOutputToCopy => _userSettings.ClickOutputToCopy;
 
     public DelegateCommand ExecCommand { get; }
 
@@ -171,5 +179,13 @@ public class PrettyValidatorViewModel : SinglePluginPageViewModelBase<IPrettyVal
         }
 
         return result;
+    }
+
+    private void OnUserSettingsChanged(string propertyName)
+    {
+        if (propertyName == nameof(UserSettings.ClickOutputToCopy))
+        {
+            RaisePropertyChanged(nameof(ClickOutputToCopy));
+        }
     }
 }

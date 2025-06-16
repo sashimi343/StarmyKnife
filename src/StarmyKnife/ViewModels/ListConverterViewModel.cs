@@ -19,7 +19,7 @@ namespace StarmyKnife.ViewModels;
 
 public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 {
-    private static readonly string[] ClipboardTextDelimiters= new[] { "\r\n", "\r", "\n" };
+    private static readonly string[] ClipboardTextDelimiters = new[] { "\r\n", "\r", "\n" };
 
     private readonly IEventAggregator _eventAggregator;
     private readonly ErrorsContainer<string> _errors;

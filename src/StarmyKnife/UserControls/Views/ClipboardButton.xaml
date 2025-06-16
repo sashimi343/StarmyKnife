@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="StarmyKnife.UserControls.Views.ClipboardButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StarmyKnife.UserControls.Views"
+             xmlns:properties="clr-namespace:StarmyKnife.Properties"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             x:Name="ClioboardButtonRoot"
+             d:DataContext="{d:DesignInstance local:ClipboardButton}"
+             d:DesignHeight="10" d:DesignWidth="100">
+    <Grid>
+        <Button x:Name="CopyBtn"
+                Click="CopyBtn_Click"
+                ToolTip="{x:Static properties:Resources.Common_CopyToClipboard}">
+            <materialDesign:PackIcon Kind="ContentCopy" Cursor="Hand" />
+        </Button>
+        <Popup PlacementTarget="{Binding ElementName=CopyBtn}"
+                       Placement="Bottom"
+                       IsOpen="{Binding IsPopupOpen, ElementName=ClioboardButtonRoot}"
+                       StaysOpen="False"
+                       AllowsTransparency="True"
+                       PopupAnimation="Fade">
+            <Border Background="{DynamicResource MahApps.Brushes.Badged.Foreground}"
+                            Padding="8,4"
+                            CornerRadius="4"
+                            Effect="{DynamicResource MaterialDesignElevation2}">
+                <TextBlock Text="{x:Static properties:Resources.Common_CopiedToClipboardMessage}"
+                                   Foreground="{DynamicResource MahApps.Brushes.Badged.Background}"
+                                   FontSize="14" />
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>
