@@ -21,6 +21,8 @@ namespace StarmyKnife.UserControls.ViewModels
         private PluginHost _pluginHost;
         private PluginParameterCollection _parameters;
         private List<PluginParameterViewModelBase> _parameterViewModels;
+        private bool _canMoveUp;
+        private bool _canMoveDown;
 
         public ObservableCollection<PluginParameterViewModelBase> ParametersViewModels
         {
@@ -47,6 +49,28 @@ namespace StarmyKnife.UserControls.ViewModels
             {
                 return IsDeletable ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        public bool IsMovable { get; set; } = false;
+
+        public Visibility MoveButtonVisibility
+        {
+            get
+            {
+                return IsMovable ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public bool CanMoveUp
+        {
+            get { return _canMoveUp; }
+            set { SetProperty(ref _canMoveUp, value); }
+        }
+
+        public bool CanMoveDown
+        {
+            get { return _canMoveDown; }
+            set { SetProperty(ref _canMoveDown, value); }
         }
 
         public Visibility NoParametersLabelVisibility

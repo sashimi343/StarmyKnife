@@ -42,6 +42,8 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         _inputItems = new ObservableCollection<StringItem>();
         _outputItems = new ObservableCollection<StringItem>();
 
+        MoveUpPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveUpPluginBox);
+        MoveDownPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveDownPluginBox);
         DeletePluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(DeletePluginBox);
         AddPluginCommand = new DelegateCommand(AddPluginBox);
         ResetPluginBoxCommand = new DelegateCommand(ResetPluginBox);
@@ -79,6 +81,8 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         set { SetProperty(ref _outputItems, value); }
     }
 
+    public DelegateCommand<PluginParameterBoxViewModel> MoveUpPluginBoxCommand { get; }
+    public DelegateCommand<PluginParameterBoxViewModel> MoveDownPluginBoxCommand { get; }
     public DelegateCommand<PluginParameterBoxViewModel> DeletePluginBoxCommand { get; }
     public DelegateCommand AddPluginCommand { get; }
     public DelegateCommand ResetPluginBoxCommand { get; }
@@ -110,11 +114,33 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         {
             var newPluginBox = new PluginParameterBoxViewModel(SelectedPlugin, _eventAggregator)
             {
-                IsDeletable = true
+                IsDeletable = true,
+                IsMovable = true,
             };
             PluginBoxes.Add(newPluginBox);
+            UpdatePluginBoxMovability();
 
             SelectedPlugin = null;
+        }
+    }
+
+    private void MoveUpPluginBox(PluginParameterBoxViewModel box)
+    {
+        int index = PluginBoxes.IndexOf(box);
+        if (index > 0)
+        {
+            PluginBoxes.Move(index, index - 1);
+            UpdatePluginBoxMovability();
+        }
+    }
+
+    private void MoveDownPluginBox(PluginParameterBoxViewModel box)
+    {
+        int index = PluginBoxes.IndexOf(box);
+        if (index < PluginBoxes.Count - 1)
+        {
+            PluginBoxes.Move(index, index + 1);
+            UpdatePluginBoxMovability();
         }
     }
 
@@ -242,5 +268,15 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
     {
         InputItems.Clear();
         _errors.ClearErrors();
+    }
+
+    private void UpdatePluginBoxMovability()
+    {
+        for (int i = 0; i < PluginBoxes.Count; i++)
+        {
+            var box = PluginBoxes[i];
+            box.CanMoveUp = i > 0;
+            box.CanMoveDown = i < PluginBoxes.Count - 1;
+        }
     }
 }

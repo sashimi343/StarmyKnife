@@ -67,6 +67,8 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         set { SetProperty(ref _selectedPlugin, value); }
     }
 
+    public DelegateCommand<PluginParameterBoxViewModel> MoveUpPluginBoxCommand { get; }
+    public DelegateCommand<PluginParameterBoxViewModel> MoveDownPluginBoxCommand { get; }
     public DelegateCommand<PluginParameterBoxViewModel> DeletePluginBoxCommand { get; }
     public DelegateCommand AddPluginCommand { get; }
     public DelegateCommand ConvertCommand { get; }
@@ -93,6 +95,8 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         _availablePlugins = new ObservableCollection<PluginHost>(_pluginLoader.GetPlugins<IConverter>());
         _pluginBoxes = new ObservableCollection<PluginParameterBoxViewModel>();
 
+        MoveUpPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveUpPluginBox);
+        MoveDownPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveDownPluginBox);
         DeletePluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(DeletePluginBox);
         AddPluginCommand = new DelegateCommand(AddPluginBox);
         ConvertCommand = new DelegateCommand(Convert);
@@ -119,18 +123,43 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         {
             var newPluginBox = new PluginParameterBoxViewModel(SelectedPlugin, _eventAggregator)
             {
-                IsDeletable = true
+                IsDeletable = true,
+                IsMovable = true
             };
             PluginBoxes.Add(newPluginBox);
+            UpdatePluginBoxMovability();
             CheckAutoConvert();
 
             SelectedPlugin = null;
         }
     }
 
+    private void MoveUpPluginBox(PluginParameterBoxViewModel box)
+    {
+        int index = PluginBoxes.IndexOf(box);
+        if (index > 0)
+        {
+            PluginBoxes.Move(index, index - 1);
+            UpdatePluginBoxMovability();
+            CheckAutoConvert();
+        }
+    }
+
+    private void MoveDownPluginBox(PluginParameterBoxViewModel box)
+    {
+        int index = PluginBoxes.IndexOf(box);
+        if (index < PluginBoxes.Count - 1)
+        {
+            PluginBoxes.Move(index, index + 1);
+            UpdatePluginBoxMovability();
+            CheckAutoConvert();
+        }
+    }
+
     private void DeletePluginBox(PluginParameterBoxViewModel box)
     {
         PluginBoxes.Remove(box);
+        UpdatePluginBoxMovability();
         CheckAutoConvert();
     }
 
@@ -199,6 +228,16 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         if (propertyName == nameof(_userSettings.ClickOutputToCopy))
         {
             RaisePropertyChanged(nameof(ClickOutputToCopy));
+        }
+    }
+
+    private void UpdatePluginBoxMovability()
+    {
+        for (int i = 0; i < PluginBoxes.Count; i++)
+        {
+            var box = PluginBoxes[i];
+            box.CanMoveUp = i > 0;
+            box.CanMoveDown = i < PluginBoxes.Count - 1;
         }
     }
 }
