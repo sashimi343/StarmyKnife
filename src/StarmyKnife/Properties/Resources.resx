@@ -291,4 +291,7 @@
   <data name="SettingsPageGeneralClickOutputToCopy" xml:space="preserve">
     <value>Click on output text box to copy</value>
   </data>
+  <data name="SettingsPageUsePrettyValidatorAsConverter" xml:space="preserve">
+    <value>Use PrettyValidator as Converter</value>
+  </data>
 </root>

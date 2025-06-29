@@ -37,6 +37,10 @@
                         IsChecked="{Binding ClickOutputToCopy, Mode=TwoWay}"
                         Content="{x:Static properties:Resources.SettingsPageGeneralClickOutputToCopy}"
                         Margin="{StaticResource XSmallTopMargin}" />
+                    <CheckBox
+                        IsChecked="{Binding UsePrettyValidatorAsConverter, Mode=TwoWay}"
+                        Content="{x:Static properties:Resources.SettingsPageUsePrettyValidatorAsConverter}"
+                        Margin="{StaticResource XSmallTopMargin}" />
                 </StackPanel>
 
                 <TextBlock

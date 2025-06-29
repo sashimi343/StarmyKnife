@@ -49,6 +49,16 @@ public class SettingsViewModel : BindableBase, INavigationAware
         }
     }
 
+    public bool UsePrettyValidatorAsConverter
+    {
+        get { return _userSettings.UsePrettyValidatorAsConverter; }
+        set
+        {
+            _userSettings.UsePrettyValidatorAsConverter = value;
+            RaiseUserSettingsChanged(nameof(UsePrettyValidatorAsConverter));
+        }
+    }
+
     public bool EnableAutoConvertByDefault
     {
         get { return _userSettings.EnableAutoConvertByDefault; }

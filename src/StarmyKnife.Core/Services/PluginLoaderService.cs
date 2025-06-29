@@ -1,6 +1,8 @@
 ﻿using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
 using StarmyKnife.Core.Plugins;
+using StarmyKnife.Core.Plugins.Internal;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -22,6 +24,8 @@ namespace StarmyKnife.Core.Services
             _externalPluginAssemblies = [];
         }
 
+        public bool UsePrettyValidatorAsConverter { get; set; } = false;
+
         public List<PluginHost> GetPlugins<T>() where T : IPlugin
         {
             var aggregateCatalog = new AggregateCatalog();
@@ -42,12 +46,32 @@ namespace StarmyKnife.Core.Services
 
             var selectedPlugins = Plugins.Where(p => p.Value is T).Select(p => new PluginHost(p.Value, p.Metadata)).ToList();
 
+            if (typeof(T) == typeof(IConverter) && UsePrettyValidatorAsConverter)
+            {
+                selectedPlugins.AddRange(GetConvertersFromPrettyValidators());
+            }
+
             return selectedPlugins;
         }
 
         public void LoadPlugins(Assembly assembly)
         {
             _externalPluginAssemblies.Add(assembly);
+        }
+
+        private List<PluginHost> GetConvertersFromPrettyValidators()
+        {
+            var prettyValidators = GetPlugins<IPrettyValidator>();
+            var prettifyConverters = prettyValidators.Where(p => ((IPrettyValidator)p.Plugin).CanPrettify)
+                .Select(p => new PrettifierToConverterAdapter((IPrettyValidator)p.Plugin))
+                .Select(a => new PluginHost(a, a.Metadata))
+                .ToList();
+            var minifyConverters = prettyValidators.Where(p => ((IPrettyValidator)p.Plugin).CanMinify)
+                .Select(p => new MinifierToConverterAdapter((IPrettyValidator)p.Plugin))
+                .Select(a => new PluginHost(a, a.Metadata))
+                .ToList();
+
+            return prettifyConverters.Concat(minifyConverters).ToList();
         }
     }
 }

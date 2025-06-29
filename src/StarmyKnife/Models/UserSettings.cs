@@ -30,6 +30,12 @@ namespace StarmyKnife.Models
             set { SetSettings<bool>(nameof(ClickOutputToCopy), value); }
         }
 
+        public bool UsePrettyValidatorAsConverter
+        {
+            get { return GetSettings<bool>(nameof(UsePrettyValidatorAsConverter)); }
+            set { SetSettings<bool>(nameof(UsePrettyValidatorAsConverter), value); }
+        }
+
         private T GetSettings<T>(string key, T defaultValue = default)
         {
             return _appProperties.ContainsKey(key) ? (T)App.Current.Properties[key] : defaultValue;

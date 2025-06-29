@@ -24,19 +24,23 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
     private readonly IEventAggregator _eventAggregator;
     private readonly ErrorsContainer<string> _errors;
     private readonly IPluginLoaderService _pluginLoader;
+    private readonly UserSettings _userSettings;
     private readonly ObservableCollection<PluginHost> _availablePlugins;
     private readonly ObservableCollection<PluginParameterBoxViewModel> _pluginBoxes;
     private PluginHost _selectedPlugin;
     private ObservableCollection<StringItem> _inputItems;
     private ObservableCollection<StringItem> _outputItems;
 
-    public ListConverterViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator)
+    public ListConverterViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator, UserSettings userSettings)
     {
         _eventAggregator = eventAggregator;
         _errors = new ErrorsContainer<string>(OnErrorsChanged);
         _pluginLoader = pluginLoader;
+        _userSettings = userSettings;
+        _eventAggregator.GetEvent<UserSettingsChangedEvent>().Subscribe(OnUserSettingsChanged);
 
-        _availablePlugins = new ObservableCollection<PluginHost>(_pluginLoader.GetPlugins<IConverter>());
+        _availablePlugins = new ObservableCollection<PluginHost>();
+        LoadAvailablePlugins();
         _pluginBoxes = new ObservableCollection<PluginParameterBoxViewModel>();
 
         _inputItems = new ObservableCollection<StringItem>();
@@ -278,5 +282,20 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
             box.CanMoveUp = i > 0;
             box.CanMoveDown = i < PluginBoxes.Count - 1;
         }
+    }
+
+    private void OnUserSettingsChanged(string propertyName)
+    {
+        if (propertyName == nameof(_userSettings.UsePrettyValidatorAsConverter))
+        {
+            LoadAvailablePlugins();
+        }
+    }
+
+    private void LoadAvailablePlugins()
+    {
+        _pluginLoader.UsePrettyValidatorAsConverter = _userSettings.UsePrettyValidatorAsConverter;
+        AvailablePlugins.Clear();
+        AvailablePlugins.AddRange(_pluginLoader.GetPlugins<IConverter>());
     }
 }

@@ -92,7 +92,8 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         _errors = new ErrorsContainer<string>(OnErrorsChanged);
         _pluginLoader = pluginLoader;
 
-        _availablePlugins = new ObservableCollection<PluginHost>(_pluginLoader.GetPlugins<IConverter>());
+        _availablePlugins = new ObservableCollection<PluginHost>();
+        LoadAvailablePlugins();
         _pluginBoxes = new ObservableCollection<PluginParameterBoxViewModel>();
 
         MoveUpPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveUpPluginBox);
@@ -229,6 +230,11 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
         {
             RaisePropertyChanged(nameof(ClickOutputToCopy));
         }
+
+        if (propertyName == nameof(_userSettings.UsePrettyValidatorAsConverter))
+        {
+            LoadAvailablePlugins();
+        }
     }
 
     private void UpdatePluginBoxMovability()
@@ -239,5 +245,12 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
             box.CanMoveUp = i > 0;
             box.CanMoveDown = i < PluginBoxes.Count - 1;
         }
+    }
+
+    private void LoadAvailablePlugins()
+    {
+        _pluginLoader.UsePrettyValidatorAsConverter = _userSettings.UsePrettyValidatorAsConverter;
+        AvailablePlugins.Clear();
+        AvailablePlugins.AddRange(_pluginLoader.GetPlugins<IConverter>());
     }
 }

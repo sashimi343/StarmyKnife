@@ -475,6 +475,15 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
+        ///   Use PrettyValidator as Converter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingsPageUsePrettyValidatorAsConverter {
+            get {
+                return ResourceManager.GetString("SettingsPageUsePrettyValidatorAsConverter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ChainConverter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShellChainConverterPage {
