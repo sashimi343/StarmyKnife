@@ -1,0 +1,109 @@
+name: Build and Release WPF App
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Allow Read and write permissions on GitHub repository Settings > Actions > General > Workflow permissions
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $version = $tag -replace '^v',''
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      - name: Extract changelog entry
+        id: changelog
+        run: |
+          $version = "${{ steps.get_version.outputs.version }}"
+          $escapedVersion = [regex]::Escape($version)
+          $content = Get-Content CHANGELOG.md -Raw
+          if ($content -match "(?ms)^## \[$escapedVersion\][^\n]*\n\s*(.*?)(?=^## |\z)") {
+            $changes = $matches[1].Trim()
+            echo "changes<<EOF" >> $env:GITHUB_OUTPUT
+            echo "$changes" >> $env:GITHUB_OUTPUT
+            echo "EOF" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "changes<<EOF" >> $env:GITHUB_OUTPUT
+            echo "See the [CHANGELOG.md](CHANGELOG.md) for details." >> $env:GITHUB_OUTPUT
+            echo "EOF" >> $env:GITHUB_OUTPUT
+          }
+        shell: pwsh
+        
+      # Add MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.3.1
+
+      - name: Clean solution
+        run: dotnet clean ./StarmyKnife.sln
+
+      - name: Restore dependencies
+        run: dotnet restore ./StarmyKnife.sln --runtime win-x64
+
+      - name: Build solution
+        run: dotnet build ./StarmyKnife.sln --configuration Release --no-restore
+
+      - name: Publish standalone (self-contained) package
+        run: |
+          dotnet publish .\src\StarmyKnife\StarmyKnife.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:PublishReadyToRun=false `
+            -p:PublishTrimmed=false `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -o .\src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}
+
+      - name: Create ZIP (standalone package)
+        run: |
+          $zipName = "StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}.zip"
+          Compress-Archive -Path "src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}\" -DestinationPath $zipName
+        shell: pwsh
+
+      - name: Publish Framework-dependent package
+        run: |
+          dotnet publish ./src/StarmyKnife/StarmyKnife.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained false `
+            -p:PublishSingleFile=false `
+            -p:PublishReadyToRun=false `
+            -p:PublishTrimmed=false `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -o .\src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-${{ steps.get_version.outputs.version }}
+
+      - name: Create ZIP (Framework-dependent package)
+        run: |
+          $zipName = "StarmyKnife-${{ steps.get_version.outputs.version }}.zip"
+          Compress-Archive -Path "src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-${{ steps.get_version.outputs.version }}\" -DestinationPath $zipName
+        shell: pwsh
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changes }}
+          files: |
+            StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}.zip
+            StarmyKnife-${{ steps.get_version.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
