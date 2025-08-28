@@ -61,6 +61,9 @@ jobs:
       - name: Build solution
         run: dotnet build ./StarmyKnife.sln --configuration Release --no-restore
 
+      - name: Run unit tests
+        run: dotnet test ./StarmyKnife.sln --no-build
+
       - name: Publish standalone (self-contained) package
         run: |
           dotnet publish .\src\StarmyKnife\StarmyKnife.csproj `

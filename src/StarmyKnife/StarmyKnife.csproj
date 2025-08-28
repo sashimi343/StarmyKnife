@@ -73,6 +73,9 @@
     <Content Include="..\..\README.md">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+    <Content Include="..\..\README.ja.md">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
     <Content Include="..\..\LICENSE.txt">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
