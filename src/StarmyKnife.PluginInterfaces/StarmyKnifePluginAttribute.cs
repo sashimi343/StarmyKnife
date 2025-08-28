@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 
-namespace StarmyKnife.Core.Plugins
+namespace StarmyKnife.PluginInterfaces
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
@@ -15,6 +15,6 @@ namespace StarmyKnife.Core.Plugins
         }
 
         public string Name { get; private set; }
-        public string Category { get; set; }
+        public string Category { get; set; } = "";
     }
 }

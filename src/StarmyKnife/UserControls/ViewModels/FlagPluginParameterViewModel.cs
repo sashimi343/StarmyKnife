@@ -1,5 +1,5 @@
 ﻿using Prism.Events;
-using StarmyKnife.Core.Plugins.Internal;
+using StarmyKnife.PluginInterfaces.Internal;
 using StarmyKnife.Events;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace StarmyKnife.UserControls.ViewModels
 {
     public class FlagPluginParameterViewModel : PluginParameterViewModelBase
     {
-        private FlagPluginParameter _parameter;
+        private readonly FlagPluginParameter _parameter;
         private bool _isChecked;
 
         public bool IsChecked

@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarmyKnife.Core.Plugins.Internal
+namespace StarmyKnife.Core.Plugins
 {
-    public class PrettifierToConverterAdapter : IPlugin, IConverter
+    public class MinifierToConverterAdapter : IPlugin, IConverter
     {
         private readonly IPrettyValidator _prettyValidator;
         private readonly IPluginMetadata _pluginMetadata;
 
-        internal PrettifierToConverterAdapter(IPrettyValidator prettyValidator)
+        internal MinifierToConverterAdapter(IPrettyValidator prettyValidator)
         {
             _prettyValidator = prettyValidator ?? throw new ArgumentNullException(nameof(prettyValidator));
 
-            if (_prettyValidator.CanPrettify == false)
+            if (_prettyValidator.CanMinify == false)
             {
-                throw new ArgumentException("The provided IPrettyValidator does not support prettification.", _prettyValidator.GetType().Name);
+                throw new ArgumentException("The provided IPrettyValidator does not support minification.", _prettyValidator.GetType().Name);
             }
 
             _pluginMetadata = GetPluginMetadata();
@@ -33,8 +33,8 @@ namespace StarmyKnife.Core.Plugins.Internal
                 return PluginInvocationResult.OfFailure(validationResult.Errors);
             }
 
-            var prettificationResult = _prettyValidator.Prettify(input, parameters);
-            return prettificationResult;
+            var minificationResult = _prettyValidator.Minify(input, parameters);
+            return minificationResult;
         }
 
         public PluginParameterCollection GetParametersSchema()
@@ -53,7 +53,7 @@ namespace StarmyKnife.Core.Plugins.Internal
 
             var metadata = new PluginMetadata()
             {
-                Name = "Prettify " + starmyKnifePluginAttribute.Name,
+                Name = "Minify " + starmyKnifePluginAttribute.Name,
             };
 
             return metadata;

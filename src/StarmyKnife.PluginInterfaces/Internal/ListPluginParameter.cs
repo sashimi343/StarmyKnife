@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StarmyKnife.Core.Plugins.Internal
+namespace StarmyKnife.PluginInterfaces.Internal
 {
     public sealed class ListPluginParameter : IPluginParameter
     {

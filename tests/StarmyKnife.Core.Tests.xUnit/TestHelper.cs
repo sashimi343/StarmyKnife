@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using StarmyKnife.Core.Plugins;
+using StarmyKnife.PluginInterfaces;
 
 namespace StarmyKnife.Core.Tests.xUnit
 {

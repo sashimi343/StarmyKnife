@@ -3,7 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
-using StarmyKnife.Core.Plugins;
+using StarmyKnife.PluginInterfaces;
 using StarmyKnife.UserControls.ViewModels;
 using System;
 using System.Collections;

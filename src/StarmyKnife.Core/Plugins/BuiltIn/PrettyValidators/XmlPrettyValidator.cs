@@ -66,7 +66,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.PrettyValidators
             }
         }
 
-        public ValidationResult Validate(string input, PluginParameterCollection parameters)
+        public StarmyKnife.PluginInterfaces.ValidationResult Validate(string input, PluginParameterCollection parameters)
         {
             return ValidateInternal(input, parameters, out XmlDocument _);
         }
@@ -76,24 +76,24 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.PrettyValidators
             configuration.AddListParameter<IndentType>(ParameterKeys.Indent);
         }
 
-        private ValidationResult ValidateInternal(string input, PluginParameterCollection parameters, out XmlDocument xml)
+        private StarmyKnife.PluginInterfaces.ValidationResult ValidateInternal(string input, PluginParameterCollection parameters, out XmlDocument xml)
         {
             try
             {
                 xml = new XmlDocument();
                 xml.LoadXml(input);
 
-                return ValidationResult.OfSuccess();
+                return StarmyKnife.PluginInterfaces.ValidationResult.OfSuccess();
             }
             catch (XmlException e)
             {
                 xml = null;
-                return ValidationResult.OfFailure($"{e.Message} at Line = {e.LineNumber}, Position = {e.LinePosition}");
+                return StarmyKnife.PluginInterfaces.ValidationResult.OfFailure($"{e.Message} at Line = {e.LineNumber}, Position = {e.LinePosition}");
             }
             catch (Exception e)
             {
                 xml = null;
-                return ValidationResult.OfFailure(e.Message);
+                return StarmyKnife.PluginInterfaces.ValidationResult.OfFailure(e.Message);
             }
         }
 

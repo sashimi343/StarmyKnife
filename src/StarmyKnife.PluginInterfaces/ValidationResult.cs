@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace StarmyKnife.Core.Plugins
+namespace StarmyKnife.PluginInterfaces
 {
     public sealed class ValidationResult
     {

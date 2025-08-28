@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using StarmyKnife.Core.Helpers;
-using StarmyKnife.Core.Plugins.Internal;
+using StarmyKnife.PluginInterfaces.Helpers;
+using StarmyKnife.PluginInterfaces.Internal;
 
-namespace StarmyKnife.Core.Plugins
+namespace StarmyKnife.PluginInterfaces
 {
     public class PluginParametersConfiguration
     {
-        private List<IPluginParameter> _parameters;
+        private readonly List<IPluginParameter> _parameters;
 
         internal PluginParametersConfiguration()
         {
@@ -75,12 +75,12 @@ namespace StarmyKnife.Core.Plugins
         #region List parameter
         public PluginParametersConfiguration AddListParameter<T>(string key) where T : Enum
         {
-            return AddListParameter<T>(key, key, default);
+            return AddListParameter<T>(key, key, default!);
         }
 
         public PluginParametersConfiguration AddListParameter<T>(string key, string name) where T : Enum
         {
-            return AddListParameter<T>(key, name, default);
+            return AddListParameter<T>(key, name, default!);
         }
 
         public PluginParametersConfiguration AddListParameter<T>(string key, T defaultValue) where T : Enum

@@ -9,7 +9,7 @@ using Prism.Mvvm;
 
 using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
-using StarmyKnife.Core.Plugins;
+using StarmyKnife.PluginInterfaces;
 using StarmyKnife.Events;
 using StarmyKnife.Helpers;
 using StarmyKnife.Models;

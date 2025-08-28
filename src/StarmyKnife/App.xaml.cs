@@ -14,7 +14,7 @@ using Prism.Unity;
 using StarmyKnife.Constants;
 using StarmyKnife.Contracts.Services;
 using StarmyKnife.Core.Contracts.Services;
-using StarmyKnife.Core.Plugins;
+using StarmyKnife.PluginInterfaces;
 using StarmyKnife.Core.Services;
 using StarmyKnife.Models;
 using StarmyKnife.Services;

@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\StarmyKnife.PluginInterfaces\StarmyKnife.PluginInterfaces.csproj" />
     <ProjectReference Include="..\..\src\StarmyKnife\StarmyKnife.csproj" />
   </ItemGroup>
 

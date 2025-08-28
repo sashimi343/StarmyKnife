@@ -1,7 +1,7 @@
 ﻿using Prism.Events;
 using Prism.Navigation;
-using StarmyKnife.Core.Plugins;
-using StarmyKnife.Core.Plugins.Internal;
+using StarmyKnife.PluginInterfaces;
+using StarmyKnife.PluginInterfaces.Internal;
 using StarmyKnife.Events;
 using System;
 using System.Collections.Generic;

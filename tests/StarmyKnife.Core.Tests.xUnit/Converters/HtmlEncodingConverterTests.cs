@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xunit;
-using StarmyKnife.Core.Plugins;
+using StarmyKnife.PluginInterfaces;
 using StarmyKnife.Core.Plugins.BuiltIn.Converters;
 
 namespace StarmyKnife.Core.Tests.xUnit.Converters

@@ -1,7 +1,6 @@
 ﻿using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
 using StarmyKnife.Core.Plugins;
-using StarmyKnife.Core.Plugins.Internal;
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +30,7 @@ namespace StarmyKnife.Core.Services
             var aggregateCatalog = new AggregateCatalog();
 
             // Load built-in plugins
-            var catalog = new AssemblyCatalog(typeof(IPlugin).Assembly);
+            var catalog = new AssemblyCatalog(Assembly.GetExecutingAssembly());
             aggregateCatalog.Catalogs.Add(catalog);
 
             // Load external plugins

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StarmyKnife.Core.Plugins.Internal
+namespace StarmyKnife.PluginInterfaces.Internal
 {
-    public sealed class FlagPluginParameter : IPluginParameter
+    public sealed class TextPluginParameter : IPluginParameter
     {
         private readonly string _key;
         private readonly string _name;
-        private bool _value;
+        private string _value;
 
-        public FlagPluginParameter(string key, string name, bool defaultValue)
+        internal TextPluginParameter(string key, string name, string defaultValue)
         {
             _key = key;
             _name = name;
@@ -21,7 +21,7 @@ namespace StarmyKnife.Core.Plugins.Internal
 
         public string Name => _name;
 
-        public bool Value
+        public string Text
         {
             get
             {
@@ -35,9 +35,9 @@ namespace StarmyKnife.Core.Plugins.Internal
 
         public T GetValue<T>()
         {
-            if (typeof(T) != typeof(bool))
+            if (typeof(T) != typeof(string))
             {
-                throw new InvalidOperationException("Cannot convert bool to " + typeof(T).Name);
+                throw new InvalidOperationException("Cannot convert string to " + typeof(T).Name);
             }
 
             return (T)(object)_value;
@@ -45,13 +45,13 @@ namespace StarmyKnife.Core.Plugins.Internal
 
         public void SetValue(object value)
         {
-            if (value is bool boolValue)
+            if (value is string strValue)
             {
-                _value = boolValue;
+                _value = strValue;
             }
             else
             {
-                throw new ArgumentException("Value must be a bool");
+                throw new ArgumentException("Value must be a string");
             }
         }
     }

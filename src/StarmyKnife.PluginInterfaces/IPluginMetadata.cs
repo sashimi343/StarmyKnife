@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StarmyKnife.Core.Plugins
+namespace StarmyKnife.PluginInterfaces
 {
     public interface IPluginMetadata
     {

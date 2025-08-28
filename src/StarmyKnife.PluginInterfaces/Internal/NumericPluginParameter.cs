@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StarmyKnife.Core.Plugins.Internal
+namespace StarmyKnife.PluginInterfaces.Internal
 {
     public class NumericPluginParameter : IPluginParameter
     {
@@ -64,7 +64,7 @@ namespace StarmyKnife.Core.Plugins.Internal
         {
             if (value is null || !IsNumericType(value.GetType()))
             {
-                throw new InvalidOperationException("Cannot convert " + value.GetType().Name + " to number");
+                throw new InvalidOperationException("Cannot convert " + (value?.GetType().Name ?? "null") + " to number");
             }
 
             Value = Convert.ToDecimal(value);

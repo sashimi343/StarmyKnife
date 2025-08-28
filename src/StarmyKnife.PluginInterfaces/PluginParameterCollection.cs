@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
-using StarmyKnife.Core.Plugins.Internal;
+using StarmyKnife.PluginInterfaces.Internal;
 
-namespace StarmyKnife.Core.Plugins
+namespace StarmyKnife.PluginInterfaces
 {
     public class PluginParameterCollection : IReadOnlyDictionary<string, IPluginParameter>
     {
-        private List<KeyValuePair<string, IPluginParameter>> _parameters;
+        private readonly List<KeyValuePair<string, IPluginParameter>> _parameters;
 
         internal PluginParameterCollection()
         {
@@ -71,7 +72,7 @@ namespace StarmyKnife.Core.Plugins
             }
             else
             {
-                value = null;
+                value = null!;
                 return false;
             }
         }
