@@ -36,6 +36,18 @@ namespace StarmyKnife.Models
             set { SetSettings<bool>(nameof(UsePrettyValidatorAsConverter), value); }
         }
 
+        public string XPathSearchHistoriesText
+        {
+            get { return GetSettings<string>(nameof(XPathSearchHistoriesText)); }
+            set { SetSettings<string>(nameof(XPathSearchHistoriesText), value); }
+        }
+
+        public string JsonPathSearchHistoriesText
+        {
+            get { return GetSettings<string>(nameof(JsonPathSearchHistoriesText)); }
+            set { SetSettings<string>(nameof(JsonPathSearchHistoriesText), value); }
+        }
+
         private T GetSettings<T>(string key, T defaultValue = default)
         {
             return _appProperties.ContainsKey(key) ? (T)App.Current.Properties[key] : defaultValue;

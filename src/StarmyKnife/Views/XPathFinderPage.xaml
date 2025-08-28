@@ -65,8 +65,11 @@
                      VerticalScrollBarVisibility="Auto"
                      Height="150"/>
             <Label Grid.Row="2" Grid.Column="0" Content="{Binding SelectedPathType}" />
-            <TextBox Grid.Row="2" Grid.Column="1"
-                     Text="{Binding XPath}" />
+            <ComboBox Grid.Row="2" Grid.Column="1"
+                      ItemsSource="{Binding XPaths}"
+                      Text="{Binding SelectedXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEditable="True"
+                      IsTextSearchEnabled="False"/>
             <Button Grid.Row="2" Grid.Column="2"
                     Content="{x:Static properties:Resources.XPathFinder_SearchButton}"
                     Command="{Binding SearchCommand}" />

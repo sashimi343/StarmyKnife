@@ -18,14 +18,21 @@ public class XPathFinderViewModel : BindableBase
 
     private PathType _selectedPathType;
     private string _inputXml;
-    private string _xpath;
+    private string _selectedXPath;
+    private ObservableCollection<string> _xPaths;
     private ObservableCollection<string> _searchResults;
 
-    public XPathFinderViewModel()
+    private readonly XPathSearchTextHistories _xPathSearchTextHistories;
+    private readonly JsonPathSearchTextHistories _jsonPathSearchTextHistories;
+
+    public XPathFinderViewModel(UserSettings userSettings)
     {
+        _xPathSearchTextHistories = new XPathSearchTextHistories(userSettings);
+        _jsonPathSearchTextHistories = new JsonPathSearchTextHistories(userSettings);
+
+        XPaths = new ObservableCollection<string>();
         SelectedPathType = PathType.XPath;
         InputXml = string.Empty;
-        XPath = string.Empty;
         SearchResults = new ObservableCollection<string>();
 
         SearchCommand = new DelegateCommand(Search);
@@ -38,6 +45,7 @@ public class XPathFinderViewModel : BindableBase
         {
             SetProperty(ref _selectedPathType, value);
             RaisePropertyChanged(nameof(InputTypeName));
+            ReloadSearchHistories();
         }
     }
 
@@ -54,10 +62,16 @@ public class XPathFinderViewModel : BindableBase
         set => SetProperty(ref _inputXml, value);
     }
 
-    public string XPath
+    public string SelectedXPath
     {
-        get => _xpath;
-        set => SetProperty(ref _xpath, value);
+        get => _selectedXPath;
+        set => SetProperty(ref _selectedXPath, value);
+    }
+
+    public ObservableCollection<string> XPaths
+    {
+        get => _xPaths;
+        set => SetProperty(ref _xPaths, value);
     }
 
     public ObservableCollection<string> SearchResults
@@ -81,13 +95,15 @@ public class XPathFinderViewModel : BindableBase
 
         try
         {
-            var results = searcher.FindAllNodes(XPath);
+            var results = searcher.FindAllNodes(SelectedXPath);
 
             SearchResults.Clear();
             foreach (var result in results)
             {
                 SearchResults.Add(result);
             }
+            SaveSearchHistory();
+            ReloadSearchHistories();
         }
         catch (Exception ex)
         {
@@ -102,6 +118,27 @@ public class XPathFinderViewModel : BindableBase
         {
             PathType.XPath => new XPathSearcher(),
             PathType.JSONPath => new JSONPathSearcher(),
+            _ => throw new NotImplementedException(),
+        };
+    }
+
+    private void SaveSearchHistory()
+    {
+        GetHistoryInstance().Push(SelectedXPath);
+    }
+
+    private void ReloadSearchHistories()
+    {
+        XPaths.Clear();
+        XPaths.AddRange(GetHistoryInstance().GetAll());
+    }
+
+    private HistoriesBase GetHistoryInstance()
+    {
+        return SelectedPathType switch
+        {
+            PathType.XPath => _xPathSearchTextHistories,
+            PathType.JSONPath => _jsonPathSearchTextHistories,
             _ => throw new NotImplementedException(),
         };
     }
