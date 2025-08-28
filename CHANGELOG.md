@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [1.0.0.0] -2025-08-28
+
+### Changed
+
+* Separate interface for plug-ins in a separate project
+
 ## [0.2.3.0] - 2025-08-28
 
 ### Added
