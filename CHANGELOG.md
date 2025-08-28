@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [0.2.3.0] - 2025-08-28
+
+### Added
+
+* Some converters
+  * To Lower/Upper case
+  * Change case (PascalCase, camelCase, snake_case, kebab-case, UPPER_SNAKE_CASE)
+
+### Changed
+
+* *PathFinder search results history can be saved
+
+### Fixed
+
+* Fix bugs in converters
+
 ## [0.2.2.0] - 2025-06-16
 
 ### Added
