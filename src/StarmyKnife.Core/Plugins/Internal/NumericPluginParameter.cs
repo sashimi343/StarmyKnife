@@ -67,7 +67,7 @@ namespace StarmyKnife.Core.Plugins.Internal
                 throw new InvalidOperationException("Cannot convert " + value.GetType().Name + " to number");
             }
 
-            Value = (decimal)value;
+            Value = Convert.ToDecimal(value);
         }
 
         private bool IsIntegerType(Type type)

@@ -6,22 +6,28 @@ namespace StarmyKnife.Core.Plugins
 {
     public sealed class PluginEncoding
     {
-        public static readonly PluginEncoding AsIs = new("As Is", Encoding.Default);
-        public static readonly PluginEncoding Default = new("Default", Encoding.Default);
-        public static readonly PluginEncoding ASCII = new("ASCII", Encoding.ASCII);
-        public static readonly PluginEncoding UTF8 = new("UTF-8", Encoding.UTF8);
-        public static readonly PluginEncoding UTF8N = new("UTF-8N", new UTF8Encoding(true));
-        public static readonly PluginEncoding UTF16BE = new("UTF-16 BE", Encoding.BigEndianUnicode);
-        public static readonly PluginEncoding UTF16LE = new("UTF-16 LE", Encoding.Unicode);
-        public static readonly PluginEncoding UTF32 = new("UTF-32", Encoding.UTF32);
-        public static readonly PluginEncoding ShiftJIS = new("Shift-JIS", Encoding.GetEncoding(932));
-        public static readonly PluginEncoding EUCJP = new("EUC-JP", Encoding.GetEncoding(51932));
-        public static readonly PluginEncoding ISO2022JP = new("ISO-2022-JP", Encoding.GetEncoding(50220));
+        public static readonly PluginEncoding AsIs = new("As Is", Encoding.Default.CodePage);
+        public static readonly PluginEncoding Default = new("Default", Encoding.Default.CodePage);
+        public static readonly PluginEncoding ASCII = new("ASCII", Encoding.ASCII.CodePage);
+        public static readonly PluginEncoding UTF8 = new("UTF-8", new UTF8Encoding(false, true));
+        public static readonly PluginEncoding UTF8N = new("UTF-8N", new UTF8Encoding(true, true));
+        public static readonly PluginEncoding UTF16BE = new("UTF-16 BE", Encoding.BigEndianUnicode.CodePage);
+        public static readonly PluginEncoding UTF16LE = new("UTF-16 LE", Encoding.Unicode.CodePage);
+        public static readonly PluginEncoding UTF32 = new("UTF-32", Encoding.UTF32.CodePage);
+        public static readonly PluginEncoding ShiftJIS = new("Shift-JIS", 932);
+        public static readonly PluginEncoding EUCJP = new("EUC-JP", 51932);
+        public static readonly PluginEncoding ISO2022JP = new("ISO-2022-JP", 50220);
 
         public string Name { get; }
         public Encoding Encoding { get; }
 
-        private PluginEncoding(string name, Encoding encoding)
+        private PluginEncoding(string name, int codePage)
+        {
+            Name = name;
+            Encoding = Encoding.GetEncoding(codePage, new EncoderExceptionFallback(), new DecoderExceptionFallback());
+        }
+
+        private PluginEncoding(string name, UTF8Encoding encoding)
         {
             Name = name;
             Encoding = encoding;

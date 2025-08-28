@@ -8,25 +8,35 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("From Base64")]
     public class Base64DecodingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string CharacterSet = "CharacterSet";
             public const string Encoding = "Encoding";
-            public const string StrictMode = "StrictMode";
-            public const string IgnoreInvalidCharacters = "IgnoreInvalidCharacters";
         }
 
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
         {
             var characterSet = parameters[ParameterKeys.CharacterSet].GetValue<Base64CharacterSet>();
             var encoding = parameters[ParameterKeys.Encoding].GetValue<Encoding>();
-            var ignoreInvalidCharacters = parameters[ParameterKeys.IgnoreInvalidCharacters].GetValue<bool>();
-            var strictMode = parameters[ParameterKeys.StrictMode].GetValue<bool>();
 
-            var decodedBytes = System.Convert.FromBase64String(input);
-            var decodedString = encoding.GetString(decodedBytes);
+            try
+            {
+                var processedInput = characterSet switch
+                {
+                    Base64CharacterSet.UrlSafe => FromUrlSafeBase64(input),
+                    Base64CharacterSet.FilenameSafe => FromFilenameSafeBase64(input),
+                    _ => input
+                };
 
-            return PluginInvocationResult.OfSuccess(decodedString);
+                var decodedBytes = System.Convert.FromBase64String(processedInput);
+                var decodedString = encoding.GetString(decodedBytes);
+
+                return PluginInvocationResult.OfSuccess(decodedString);
+            }
+            catch (Exception e) when (e is FormatException || e is ArgumentException || e is DecoderFallbackException)
+            {
+                return PluginInvocationResult.OfFailure(e.Message);
+            }
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)
@@ -41,8 +51,16 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
                                             PluginEncoding.EUCJP,
                                             PluginEncoding.ISO2022JP)
             );
-            configuration.AddFlagParameter(ParameterKeys.IgnoreInvalidCharacters, true);
-            configuration.AddFlagParameter(ParameterKeys.StrictMode, false);
+        }
+
+        private string FromUrlSafeBase64(string base64String)
+        {
+            return base64String.Replace('-', '+').Replace('_', '/').PadRight(base64String.Length + (4 - base64String.Length % 4) % 4, '=');
+        }
+
+        private string FromFilenameSafeBase64(string base64String)
+        {
+            return base64String.Replace('-', '/');
         }
     }
 }

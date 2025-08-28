@@ -8,7 +8,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("MD5")]
     public class Md5Converter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Encoding = "Encoding";
         }
@@ -36,6 +36,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             configuration.AddListParameter(
                 ParameterKeys.Encoding, 
                 PluginEncoding.GetListItems(PluginEncoding.UTF8,
+                                            PluginEncoding.UTF16BE,
                                             PluginEncoding.UTF16LE,
                                             PluginEncoding.ShiftJIS,
                                             PluginEncoding.EUCJP,

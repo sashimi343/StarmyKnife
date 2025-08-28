@@ -10,11 +10,9 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     {
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
         {
-            var decodeHex = HtmlEncodingHelper.FromHexEntities(input);
-            var decodeNumeric = HtmlEncodingHelper.FromNumericEntities(decodeHex);
-            var decodeNamed = HtmlEncodingHelper.FromNamedEntities(decodeNumeric);
+            var output = HtmlEncodingHelper.FromHtmlEntities(input);
 
-            return PluginInvocationResult.OfSuccess(decodeNamed);
+            return PluginInvocationResult.OfSuccess(output);
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)

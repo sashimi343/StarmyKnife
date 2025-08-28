@@ -8,7 +8,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("Replace text (simple substitution)")]
     public class ReplaceTextConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Pattern = "Pattern";
             public const string Replacement = "Replacement";
@@ -22,19 +22,31 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             var replacementText = parameters[ParameterKeys.Replacement].GetValue<string>();
             var useRegex = parameters[ParameterKeys.UseRegex].GetValue<bool>();
 
+            if (string.IsNullOrEmpty(patternText))
+            {
+                return PluginInvocationResult.OfSuccess(input);
+            }
+
             var options = GetRegexOptions(parameters);
             Regex pattern;
             string replacement;
 
-            if (useRegex)
+            try
             {
-                pattern = new Regex(patternText, options);
-                replacement = UnescapeSequence(replacementText);
+                if (useRegex)
+                {
+                    pattern = new Regex(patternText, options);
+                    replacement = UnescapeSequence(replacementText);
+                }
+                else
+                {
+                    pattern = new Regex(Regex.Escape(patternText), options);
+                    replacement = replacementText;
+                }
             }
-            else
+            catch (RegexParseException ex)
             {
-                pattern = new Regex(Regex.Escape(patternText), options);
-                replacement = replacementText;
+                return PluginInvocationResult.OfFailure(ex.Message);
             }
 
             var result = pattern.Replace(input, replacement);

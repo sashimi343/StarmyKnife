@@ -8,7 +8,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("To Base64")]
     public class Base64EncodingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string CharacterSet = "CharacterSet";
             public const string Encoding = "Encoding";
@@ -19,16 +19,24 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             var characterSet = parameters[ParameterKeys.CharacterSet].GetValue<Base64CharacterSet>();
             var encoding = parameters[ParameterKeys.Encoding].GetValue<Encoding>();
 
-            var bytes = encoding.GetBytes(input);
-            var base64String = System.Convert.ToBase64String(bytes);
-            string output = characterSet switch
+            try
             {
-                Base64CharacterSet.UrlSafe => ToUrlSafeBase64(base64String),
-                Base64CharacterSet.FilenameSafe => ToFilenameSafeBase64(base64String),
-                _ => base64String
-            };
+                var bytes = encoding.GetBytes(input);
+                var base64String = System.Convert.ToBase64String(bytes);
+                string output = characterSet switch
+                {
+                    Base64CharacterSet.UrlSafe => ToUrlSafeBase64(base64String),
+                    Base64CharacterSet.FilenameSafe => ToFilenameSafeBase64(base64String),
+                    _ => base64String
+                };
 
-            return PluginInvocationResult.OfSuccess(output);
+                return PluginInvocationResult.OfSuccess(output);
+            }
+            catch (Exception ex) when (ex is ArgumentNullException or EncoderFallbackException)
+            {
+                return PluginInvocationResult.OfFailure(ex.Message);
+            }
+
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)

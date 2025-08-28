@@ -8,14 +8,14 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("To Hex")]
     public class HexEncodingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Encoding = "Encoding";
             public const string Delimiter = "Delimiter";
             public const string BytesPerLine = "BytesPerLine";
         }
 
-        private enum DelimiterType
+        public enum DelimiterType
         {
             None,
             Space,
@@ -36,28 +36,41 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             var delimiter = parameters[ParameterKeys.Delimiter].GetValue<DelimiterType>();
             var bytesPerLine = parameters[ParameterKeys.BytesPerLine].GetValue<int>();
 
-            var inputBytes = encoding.GetBytes(input);
-            var sb = new StringBuilder();
-            int numBytesInLine = 0;
-
-            foreach (byte currentByte in inputBytes)
+            try
             {
-                AppendWithDelimiter(sb, currentByte, delimiter);
+                var inputBytes = encoding.GetBytes(input);
+                var sb = new StringBuilder();
+                int numBytesInLine = 0;
 
-                if (bytesPerLine > 0)
+                foreach (byte currentByte in inputBytes)
                 {
-                    numBytesInLine++;
-                    if (numBytesInLine >= bytesPerLine)
+                    AppendWithDelimiter(sb, currentByte, delimiter);
+
+                    if (bytesPerLine > 0)
                     {
-                        sb.AppendLine();
-                        numBytesInLine = 0;
+                        numBytesInLine++;
+                        if (numBytesInLine >= bytesPerLine)
+                        {
+                            sb.AppendLine();
+                            numBytesInLine = 0;
+                        }
                     }
                 }
+
+                if (bytesPerLine > 0 && sb.Length > 0 && numBytesInLine == 0)
+                {
+                    // Remove the last line break if we ended exactly at the end of a line
+                    sb.Remove(sb.Length - Environment.NewLine.Length, Environment.NewLine.Length);
+                }
+
+                RemoveTrailingDelimiter(sb, delimiter);
+
+                return PluginInvocationResult.OfSuccess(sb.ToString());
             }
-
-            RemoveTrailingDelimiter(sb, delimiter);
-
-            return PluginInvocationResult.OfSuccess(sb.ToString());
+            catch (EncoderFallbackException ex)
+            {
+                return PluginInvocationResult.OfFailure($"Encoding error: {ex.Message}");
+            }
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)
@@ -122,11 +135,11 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             switch (delimiter)
             {
                 case DelimiterType.Space:
-                case DelimiterType.Percent:
                 case DelimiterType.Comma:
                 case DelimiterType.SemiColon:
                 case DelimiterType.Colon:
                 case DelimiterType.LF:
+                case DelimiterType.ZeroXWithComma:
                     // Single character suffix
                     sb.Remove(sb.Length - 1, 1);
                     break;
@@ -134,6 +147,8 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
                     // Double character suffix
                     sb.Remove(sb.Length - 2, 2);
                     break;
+                case DelimiterType.Percent:
+                case DelimiterType.ZeroX:
                 default:
                     // no suffix
                     break;

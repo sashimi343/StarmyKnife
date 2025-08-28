@@ -7,7 +7,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Generators
     [StarmyKnifePlugin("Random Number")]
     public class RandomNumberGenerator : PluginBase, IGenerator
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string OutputType = "OutputType";
             public const string MinValue = "MinValue";

@@ -7,7 +7,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Generators
     [StarmyKnifePlugin("Lorem Ipsum")]
     public class LoremIpsumGenerator : PluginBase, IGenerator
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Length = "Length";
             public const string LengthIn = "LengthIn";

@@ -10,13 +10,13 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("HTML Encode")]
     public class HtmlEncodingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string ConvertAllCharacters = "ConvertAllCharacters";
             public const string EncodingMode = "EncodingMode";
         }
 
-        private enum EncodingMode
+        public enum EncodingMode
         {
             ToNamedEntities,
             ToNumericEntities,

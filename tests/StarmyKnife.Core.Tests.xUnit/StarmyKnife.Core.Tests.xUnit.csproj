@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Converters\" />
     <Folder Include="Generators\" />
     <Folder Include="PrettyValidators\" />
   </ItemGroup>

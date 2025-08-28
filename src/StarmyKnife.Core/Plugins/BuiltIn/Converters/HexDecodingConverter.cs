@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
 {
     [StarmyKnifePlugin("From Hex")]
     public class HexDecodingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Encoding = "Encoding";
             public const string Delimiter = "Delimiter";
         }
 
-        private enum DelimiterType
+        public enum DelimiterType
         {
             Auto,
             None,
@@ -38,17 +39,29 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             var detectedDelimiter = delimiter == DelimiterType.Auto ? DetectDelimiter(input) : delimiter;
 
             var delimiterRemovedString = RemoveDelimiter(input, detectedDelimiter);
-            var oneline = delimiterRemovedString.Replace("\\r", "").Replace("\\n", "");
-            var inputBytes = new List<byte>();
-            for (int i = 0; i < oneline.Length; i += 2)
+
+            if (IsInvalidInput(delimiterRemovedString, out var errorMessage))
             {
-                var hex = oneline.Substring(i, 2);
+                return PluginInvocationResult.OfFailure(errorMessage);
+            }
+
+            var inputBytes = new List<byte>();
+            for (int i = 0; i < delimiterRemovedString.Length; i += 2)
+            {
+                var hex = delimiterRemovedString.Substring(i, 2);
                 inputBytes.Add(System.Convert.ToByte(hex, 16));
             }
 
-            var output = encoding.GetString(inputBytes.ToArray());
+            try
+            {
+                var output = encoding.GetString(inputBytes.ToArray());
 
-            return PluginInvocationResult.OfSuccess(output);
+                return PluginInvocationResult.OfSuccess(output);
+            }
+            catch (DecoderFallbackException ex)
+            {
+                return PluginInvocationResult.OfFailure($"Decoding failed: {ex.Message}");
+            }
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)
@@ -87,7 +100,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             }
 
             // Detect CRLF
-            if (input.Length > 4 && input.Substring(2, 2) == "\\r\\n")
+            if (input.Length > 4 && input.Substring(2, 2) == "\r\n")
             {
                 return DelimiterType.CRLF;
             }
@@ -134,6 +147,18 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
                 default:
                     throw new NotImplementedException($"Unsupported DelimiterType {delimiter}");
             }
+        }
+
+        private bool IsInvalidInput(string input, out string errorMessage)
+        {
+            if (!Regex.IsMatch(input, @"^([0-9a-f]{2})*$", RegexOptions.IgnoreCase | RegexOptions.Multiline))
+            {
+                errorMessage = "Input contains invalid characters. Only hexadecimal characters (0-9, a-f) are allowed.";
+                return true;
+            }
+
+            errorMessage = null;
+            return false;
         }
     }
 }

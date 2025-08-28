@@ -8,13 +8,13 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("Unicode escape")]
     public class UnicodeEscapingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Prefix = "Prefix";
             public const string Delimiter = "Delimiter";
         }
 
-        private enum PrefixType
+        public enum PrefixType
         {
             [Display(Name = "\\u")]
             BackslashU,
@@ -24,11 +24,12 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             UPlus,
         }
 
-        private enum DelimiterType
+        public enum DelimiterType
         {
             None,
             Space,
             Comma,
+            NewLine
         }
 
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
@@ -81,6 +82,8 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
                     return " ";
                 case DelimiterType.Comma:
                     return ",";
+                case DelimiterType.NewLine:
+                    return Environment.NewLine;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(delimiterType), delimiterType, null);
             }

@@ -12,8 +12,13 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     {
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
         {
+            if (string.IsNullOrEmpty(input))
+            {
+                return PluginInvocationResult.OfSuccess(input);
+            }
+
             var idn = new IdnMapping();
-            var result = idn.GetUnicode(input);
+            var result = idn.GetAscii(input);
 
             return PluginInvocationResult.OfSuccess(result);
         }

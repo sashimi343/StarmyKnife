@@ -255,23 +255,10 @@ namespace StarmyKnife.Core.Helpers
             }
         }
 
-        internal static string FromNamedEntities(string input)
-        {
-            var output = HttpUtility.HtmlDecode(input);
-            return output;
-        }
-
-        internal static string FromNumericEntities(string input)
-        {
-            // System.Net.HttpUtility.HtmlDecode also supports numeric entities
-            var output = HttpUtility.HtmlDecode(input);
-            return output;
-        }
-
-        internal static string FromHexEntities(string input)
+        internal static string FromHtmlEntities(string input)
         {
             var numericEntities = ConvertHexToNumeric(input);
-            var output = FromNumericEntities(numericEntities);
+            var output = HttpUtility.HtmlDecode(numericEntities);
             return output;
         }
 
@@ -314,8 +301,8 @@ namespace StarmyKnife.Core.Helpers
         {
             var output = RegexHexEntity.Replace(input, match =>
             {
-                var code = int.Parse(match.Groups["Num"].Value);
-                var entity = $"&#{code:X};";
+                var decValue = Convert.ToInt32(match.Groups["Num"].Value, 16);
+                var entity = $"&#{decValue};";
                 return entity;
             });
 

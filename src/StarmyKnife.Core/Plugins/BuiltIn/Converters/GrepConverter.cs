@@ -8,7 +8,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("Grep")]
     public class GrepConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Pattern = "Pattern";
             public const string UseRegex = "UseRegex";
@@ -26,30 +26,38 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             var matchedPartOnly = parameters[ParameterKeys.MatchedPartOnly].GetValue<bool>();
 
             var inputLines = input.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            var pattern = CreateSearchPattern(patternText, useRegex, ignoreCase);
-            List<string> outputLines = [];
 
-            foreach (var line in inputLines)
+            try
             {
-                var match = pattern.Match(line);
-                var isOutput = invertMatch ? !match.Success : match.Success;
+                var pattern = CreateSearchPattern(patternText, useRegex, ignoreCase);
+                List<string> outputLines = [];
 
-                if (isOutput)
+                foreach (var line in inputLines)
                 {
-                    if (matchedPartOnly)
+                    var match = pattern.Match(line);
+                    var isOutput = invertMatch ? !match.Success : match.Success;
+
+                    if (isOutput)
                     {
-                        outputLines.Add(match.Value);
-                    }
-                    else
-                    {
-                        outputLines.Add(line);
+                        if (matchedPartOnly)
+                        {
+                            outputLines.Add(match.Value);
+                        }
+                        else
+                        {
+                            outputLines.Add(line);
+                        }
                     }
                 }
+
+                var output = string.Join(Environment.NewLine, outputLines);
+
+                return PluginInvocationResult.OfSuccess(output);
             }
-
-            var output = string.Join(Environment.NewLine, outputLines);
-
-            return PluginInvocationResult.OfSuccess(output);
+            catch (RegexParseException ex)
+            {
+                return PluginInvocationResult.OfFailure($"Invalid regex pattern: {ex.Message}");
+            }
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)

@@ -8,7 +8,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("SHA-256")]
     public class Sha256Converter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Encoding = "Encoding";
         }

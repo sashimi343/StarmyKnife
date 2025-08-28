@@ -8,14 +8,14 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("URL Encode")]
     public class UrlEncodingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
-            public const string EscapeWhitespace = "EscapeWhiteSpace";
+            public const string EscapeAllSpecialChars = "EscapeAllSpecialChars";
         }
 
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
         {
-            var escapeWhitespace = parameters[ParameterKeys.EscapeWhitespace].GetValue<bool>();
+            var escapeWhitespace = parameters[ParameterKeys.EscapeAllSpecialChars].GetValue<bool>();
 
             var encodingString = escapeWhitespace ? Uri.EscapeDataString(input) : WebUtility.UrlEncode(input);
 
@@ -24,7 +24,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)
         {
-            configuration.AddFlagParameter(ParameterKeys.EscapeWhitespace, false);
+            configuration.AddFlagParameter(ParameterKeys.EscapeAllSpecialChars, false);
         }
     }
 }

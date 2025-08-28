@@ -9,7 +9,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.PrettyValidators
     [StarmyKnifePlugin("XML")]
     public class XmlPrettyValidator : PluginBase, IPrettyValidator
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Indent = "Indent";
         }

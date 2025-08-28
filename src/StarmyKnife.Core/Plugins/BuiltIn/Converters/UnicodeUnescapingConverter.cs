@@ -7,13 +7,13 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
     [StarmyKnifePlugin("Unicode unescape")]
     public class UnicodeUnescapingConverter : PluginBase, IConverter
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Prefix = "Prefix";
             public const string Delimiter = "Delimiter";
         }
 
-        private enum PrefixType
+        public enum PrefixType
         {
             Auto,
             [Display(Name = "\\u")]
@@ -24,11 +24,12 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             UPlus,
         }
 
-        private enum DelimiterType
+        public enum DelimiterType
         {
             None,
             Space,
             Comma,
+            NewLine
         }
 
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
@@ -40,29 +41,24 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             var delimiter = GetDelimiter(delimiterType);
 
             var sb = new StringBuilder();
-            var codePoints = input.Replace("\\r", "").Replace("\\n", "").Split(new[] {delimiter}, StringSplitOptions.None);
 
-            foreach (var codePoint in codePoints)
+            try
             {
-                if (codePoint.StartsWith(prefix))
-                {
-                    var code = codePoint.Substring(prefix.Length);
-                    if (code.Length == 4)
-                    {
-                        sb.Append((char)int.Parse(code));
-                    }
-                    else
-                    {
-                        return PluginInvocationResult.OfFailure($"Invalid code point: {codePoint}");
-                    }
-                }
-                else
-                {
-                    return PluginInvocationResult.OfFailure($"Invalid code point: {codePoint}");
-                }
-            }
+                //
+                var codePoints = GetCodePoints(input, delimiterType, prefix);
 
-            return PluginInvocationResult.OfSuccess(sb.ToString());
+                foreach (var codePoint in codePoints)
+                {
+                    var codePointValue = System.Convert.ToInt32(codePoint, 16);
+                    sb.Append((char)codePointValue);
+                }
+
+                return PluginInvocationResult.OfSuccess(sb.ToString());
+            }
+            catch (FormatException)
+            {
+                return PluginInvocationResult.OfFailure("Input contains invalid code points.");
+            }
         }
 
         protected override void ConfigureParameters(PluginParametersConfiguration configuration)
@@ -113,10 +109,31 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
                     return " ";
                 case DelimiterType.Comma:
                     return ",";
+                case DelimiterType.NewLine:
+                    return Environment.NewLine;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(delimiterType), delimiterType, null);
             }
         }
 
+        private IEnumerable<string> GetCodePoints(string input, DelimiterType delimiterType, string prefix)
+        {
+            var delimiterText = GetDelimiter(delimiterType);
+
+            switch (delimiterType)
+            {
+                case DelimiterType.None:
+                    var itemLength = prefix.Length + 4;
+                    return Enumerable.Range(0, input.Length / itemLength)
+                                     .Select(i => input.Substring(i * itemLength, itemLength).Replace(prefix, ""));
+                case DelimiterType.Space:
+                case DelimiterType.Comma:
+                case DelimiterType.NewLine:
+                    return input.Split(new[] {delimiterText}, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(i => i.Replace(prefix, ""));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(delimiterType), delimiterType, null);
+            }
+        }
     }
 }

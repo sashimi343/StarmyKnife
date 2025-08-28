@@ -9,7 +9,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Generators
     [StarmyKnifePlugin("Random Text")]
     public class RandomTextGenerator : PluginBase, IGenerator
     {
-        private class ParameterKeys
+        public class ParameterKeys
         {
             public const string Length = "Length";
             public const string CharCategory_UpperCase = "UpperCase";
