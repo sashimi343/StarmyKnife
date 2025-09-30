@@ -30,6 +30,10 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Remove="Assets\StarmyKnifeSplash.png" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Content Include="Assets\StarmyKnife.ico" />
   </ItemGroup>
   
@@ -83,6 +87,10 @@
     <Content Include="..\..\CHANGELOG.md">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\StarmyKnifeSplash.png" />
   </ItemGroup>
 
   <Target Name="CreatePluginsDirectory" AfterTargets="Publish">

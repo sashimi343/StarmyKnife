@@ -34,6 +34,7 @@ namespace StarmyKnife;
 public partial class App : PrismApplication
 {
     private string[] _startUpArgs;
+    private SplashScreenWindow _splash;
 
     public App()
     {
@@ -44,9 +45,11 @@ public partial class App : PrismApplication
 
     protected override async void OnInitialized()
     {
+        _splash.SetLog("Restoring user settings...");
         var persistAndRestoreService = Container.Resolve<IPersistAndRestoreService>();
         persistAndRestoreService.RestoreData();
 
+        _splash.SetLog("Initializing themes...");
         var themeSelectorService = Container.Resolve<IThemeSelectorService>();
         themeSelectorService.InitializeTheme();
 
@@ -58,16 +61,28 @@ public partial class App : PrismApplication
 
         base.OnInitialized();
         await Task.CompletedTask;
+
+        if (_splash != null)
+        {
+            _splash.Close();
+            _splash = null;
+        }
     }
 
     protected override void OnStartup(StartupEventArgs e)
     {
         _startUpArgs = e.Args;
+        _splash = new SplashScreenWindow();
+        _splash.SetLog("Starting application...");
+        _splash.Show();
+
         base.OnStartup(e);
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+        _splash.SetLog("Loading core features...");
+
         // Core Services
         containerRegistry.Register<IFileService, FileService>();
         containerRegistry.RegisterSingleton<IPluginLoaderService, PluginLoaderService>();
@@ -148,6 +163,7 @@ public partial class App : PrismApplication
     {
         try
         {
+            _splash.SetLog("Searching external plugins...");
             var pluginLoaderService = Container.Resolve<IPluginLoaderService>();
             var pluginDllFiles = GetFilesInPluginDirectory();
 
@@ -165,11 +181,13 @@ public partial class App : PrismApplication
 
             foreach (var pluginDllFile in pluginDllFiles)
             {
+                _splash.SetLog($"Loading assembly '{Path.GetFileName(pluginDllFile)}' ...");
                 var assembly = Assembly.LoadFrom(pluginDllFile);
                 var types = assembly.GetTypes();
 
                 if (types.Any(t => t.IsSubclassOf(typeof(PluginBase))))
                 {
+                    _splash.SetLog($"Registering external plugin '{Path.GetFileName(pluginDllFile)}' ...");
                     pluginLoaderService.LoadPlugins(assembly);
                 }
             }
