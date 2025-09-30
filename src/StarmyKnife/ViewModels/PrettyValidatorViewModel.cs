@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace StarmyKnife.ViewModels;
 
@@ -37,6 +38,9 @@ public class PrettyValidatorViewModel : SinglePluginPageViewModelBase<IPrettyVal
 
         OnSelectedPluginChanged();
     }
+
+    public FontFamily IOFontFamily => _userSettings.IOFontFamily;
+    public int IOFontSize => _userSettings.IOFontSize;
 
     public string Input
     {
@@ -183,9 +187,19 @@ public class PrettyValidatorViewModel : SinglePluginPageViewModelBase<IPrettyVal
 
     private void OnUserSettingsChanged(string propertyName)
     {
-        if (propertyName == nameof(UserSettings.ClickOutputToCopy))
+        switch (propertyName)
         {
-            RaisePropertyChanged(nameof(ClickOutputToCopy));
+            case nameof(_userSettings.IOFontFamily):
+                RaisePropertyChanged(nameof(IOFontFamily));
+                break;
+            case nameof(_userSettings.IOFontSize):
+                RaisePropertyChanged(nameof(IOFontSize));
+                break;
+            case nameof(_userSettings.ClickOutputToCopy):
+                RaisePropertyChanged(nameof(ClickOutputToCopy));
+                break;
+            default:
+                break;
         }
     }
 }

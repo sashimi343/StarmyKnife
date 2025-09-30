@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using System.Globalization;
 
 using Prism.Commands;
 using Prism.Mvvm;
@@ -7,6 +8,8 @@ using Prism.Regions;
 using StarmyKnife.Contracts.Services;
 using StarmyKnife.Events;
 using StarmyKnife.Models;
+using System.Windows.Media;
+using System.Windows.Markup;
 
 namespace StarmyKnife.ViewModels;
 
@@ -26,6 +29,9 @@ public class SettingsViewModel : BindableBase, INavigationAware
     private ICommand _setThemeCommand;
     private ICommand _privacyStatementCommand;
 
+    public IReadOnlyList<int> AvailableFontSizes { get; } = [6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+    public SortedDictionary<string, FontFamily> AvailableFontFamilies { get; private set; }
+
     public AppTheme Theme
     {
         get { return _theme; }
@@ -39,6 +45,26 @@ public class SettingsViewModel : BindableBase, INavigationAware
     }
 
     #region "User settings"
+    public FontFamily IOFontFamily
+    {
+        get { return _userSettings.IOFontFamily; }
+        set
+        {
+            _userSettings.IOFontFamily = value;
+            RaiseUserSettingsChanged(nameof(IOFontFamily));
+        }
+    }
+
+    public int IOFontSize
+    {
+        get { return _userSettings.IOFontSize; }
+        set
+        {
+            _userSettings.IOFontSize = value;
+            RaiseUserSettingsChanged(nameof(IOFontSize));
+        }
+    }
+
     public bool ClickOutputToCopy
     {
         get { return _userSettings.ClickOutputToCopy; }
@@ -87,6 +113,8 @@ public class SettingsViewModel : BindableBase, INavigationAware
         _systemService = systemService;
         _applicationInfoService = applicationInfoService;
         _eventAggregator = eventAggregator;
+
+        AvailableFontFamilies = GetFontFamilies();
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext)
@@ -115,5 +143,26 @@ public class SettingsViewModel : BindableBase, INavigationAware
     {
         _eventAggregator.GetEvent<UserSettingsChangedEvent>().Publish(propertyName);
         RaisePropertyChanged(propertyName);
+    }
+
+    private SortedDictionary<string, FontFamily> GetFontFamilies()
+    {
+        var currentLanguage = XmlLanguage.GetLanguage(CultureInfo.CurrentUICulture.Name);
+        var tempFonts = new Dictionary<string, FontFamily>();
+
+        foreach (var fontFamily in Fonts.SystemFontFamilies)
+        {
+            if (fontFamily.FamilyNames.TryGetValue(currentLanguage, out var name))
+            {
+                tempFonts[name] = fontFamily;
+            }
+            else
+            {
+                tempFonts[fontFamily.Source] = fontFamily;
+            }
+        }
+
+        var fonts = new SortedDictionary<string, FontFamily>(tempFonts);
+        return fonts;
     }
 }

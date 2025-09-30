@@ -62,6 +62,8 @@
                          Text="{Binding Input}"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
+                         FontFamily="{Binding IOFontFamily}"
+                         FontSize="{Binding IOFontSize}"
                          VerticalScrollBarVisibility="Auto" />
                 <Button Grid.Row="4"
                         Content="{x:Static properties:Resources.PrettyValidator_ExecButton}"
@@ -80,6 +82,8 @@
                          Text="{Binding Output}"
                          IsReadOnly="True"
                          TextWrapping="Wrap"
+                         FontFamily="{Binding IOFontFamily}"
+                         FontSize="{Binding IOFontSize}"
                          VerticalScrollBarVisibility="Auto"
                          behaviors:CopyToClipboardOnClickBehavior.IsEnabled="{Binding ClickOutputToCopy}">
                     <i:Interaction.Behaviors>

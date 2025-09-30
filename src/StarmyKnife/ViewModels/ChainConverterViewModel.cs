@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StarmyKnife.ViewModels;
 
@@ -30,6 +31,9 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
     private string _input;
     private string _output;
     private bool _autoConvertEnabled;
+
+    public FontFamily IOFontFamily => _userSettings.IOFontFamily;
+    public int IOFontSize => _userSettings.IOFontSize;
 
     public string Input
     {
@@ -226,14 +230,22 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
 
     private void OnUserSettingsChanged(string propertyName)
     {
-        if (propertyName == nameof(_userSettings.ClickOutputToCopy))
+        switch (propertyName)
         {
-            RaisePropertyChanged(nameof(ClickOutputToCopy));
-        }
-
-        if (propertyName == nameof(_userSettings.UsePrettyValidatorAsConverter))
-        {
-            LoadAvailablePlugins();
+            case nameof(_userSettings.UsePrettyValidatorAsConverter):
+                LoadAvailablePlugins();
+                break;
+            case nameof(_userSettings.ClickOutputToCopy):
+                RaisePropertyChanged(nameof(ClickOutputToCopy));
+                break;
+            case nameof(_userSettings.IOFontFamily):
+                RaisePropertyChanged(nameof(IOFontFamily));
+                break;
+            case nameof(_userSettings.IOFontSize):
+                RaisePropertyChanged(nameof(IOFontSize));
+                break;
+            default:
+                break;
         }
     }
 

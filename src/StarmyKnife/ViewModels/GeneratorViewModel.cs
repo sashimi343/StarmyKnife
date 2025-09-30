@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace StarmyKnife.ViewModels;
 
@@ -30,6 +31,9 @@ public class GeneratorViewModel : SinglePluginPageViewModelBase<IGenerator>
 
         EventAggregator.GetEvent<UserSettingsChangedEvent>().Subscribe(OnUserSettingsChanged);
     }
+
+    public FontFamily IOFontFamily => _userSettings.IOFontFamily;
+    public int IOFontSize => _userSettings.IOFontSize;
 
     public int NumberOfGeneration
     {
@@ -88,9 +92,16 @@ public class GeneratorViewModel : SinglePluginPageViewModelBase<IGenerator>
 
     private void OnUserSettingsChanged(string propertyName)
     {
-        if (propertyName == nameof(_userSettings.ClickOutputToCopy))
+        switch (propertyName)
         {
-            RaisePropertyChanged(nameof(_userSettings.ClickOutputToCopy));
+            case nameof(_userSettings.IOFontFamily):
+                RaisePropertyChanged(nameof(IOFontFamily));
+                break;
+            case nameof(_userSettings.IOFontSize):
+                RaisePropertyChanged(nameof(IOFontSize));
+                break;
+            default:
+                break;
         }
     }
 }

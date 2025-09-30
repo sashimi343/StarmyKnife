@@ -294,4 +294,7 @@
   <data name="SettingsPageUsePrettyValidatorAsConverter" xml:space="preserve">
     <value>Use PrettyValidator as Converter</value>
   </data>
+  <data name="SettingsPageDisplayFontFamily" xml:space="preserve">
+    <value>Font</value>
+  </data>
 </root>

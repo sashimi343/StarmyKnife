@@ -5,9 +5,11 @@ using Prism.Mvvm;
 
 using StarmyKnife.Core.Contracts.Models;
 using StarmyKnife.Core.Models;
+using StarmyKnife.Events;
 using StarmyKnife.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace StarmyKnife.ViewModels;
@@ -16,6 +18,8 @@ public class XPathFinderViewModel : BindableBase
 {
     private const int PopupDisplaySeconds = 2;
 
+    private readonly UserSettings _userSettings;
+    private readonly IEventAggregator _eventAggregator;
     private PathType _selectedPathType;
     private string _inputXml;
     private string _selectedXPath;
@@ -25,8 +29,10 @@ public class XPathFinderViewModel : BindableBase
     private readonly XPathSearchTextHistories _xPathSearchTextHistories;
     private readonly JsonPathSearchTextHistories _jsonPathSearchTextHistories;
 
-    public XPathFinderViewModel(UserSettings userSettings)
+    public XPathFinderViewModel(UserSettings userSettings, IEventAggregator eventAggregator)
     {
+        _userSettings = userSettings;
+        _eventAggregator = eventAggregator;
         _xPathSearchTextHistories = new XPathSearchTextHistories(userSettings);
         _jsonPathSearchTextHistories = new JsonPathSearchTextHistories(userSettings);
 
@@ -36,7 +42,12 @@ public class XPathFinderViewModel : BindableBase
         SearchResults = new ObservableCollection<string>();
 
         SearchCommand = new DelegateCommand(Search);
+
+        _eventAggregator.GetEvent<UserSettingsChangedEvent>().Subscribe(OnUserSettingsChanged);
     }
+
+    public FontFamily IOFontFamily => _userSettings.IOFontFamily;
+    public int IOFontSize => _userSettings.IOFontSize;
 
     public PathType SelectedPathType
     {
@@ -141,5 +152,18 @@ public class XPathFinderViewModel : BindableBase
             PathType.JSONPath => _jsonPathSearchTextHistories,
             _ => throw new NotImplementedException(),
         };
+    }
+
+    private void OnUserSettingsChanged(string propertyName)
+    {
+        switch (propertyName)
+        {
+            case nameof(_userSettings.IOFontFamily):
+                RaisePropertyChanged(nameof(IOFontFamily));
+                break;
+            case nameof(_userSettings.IOFontSize):
+                RaisePropertyChanged(nameof(IOFontSize));
+                break;
+        }
     }
 }

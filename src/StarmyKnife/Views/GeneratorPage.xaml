@@ -66,6 +66,8 @@
                      Text="{Binding Output}"
                      TextWrapping="Wrap"
                      IsReadOnly="True"
+                     FontFamily="{Binding IOFontFamily}"
+                     FontSize="{Binding IOFontSize}"
                      behaviors:CopyToClipboardOnClickBehavior.IsEnabled="{Binding ClickOutputToCopy}">
                 <i:Interaction.Behaviors>
                     <behaviors:CopyToClipboardOnClickBehavior />

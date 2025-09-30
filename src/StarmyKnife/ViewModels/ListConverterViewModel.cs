@@ -14,6 +14,7 @@ using StarmyKnife.Events;
 using StarmyKnife.Helpers;
 using StarmyKnife.Models;
 using StarmyKnife.UserControls.ViewModels;
+using System.Windows.Media;
 
 namespace StarmyKnife.ViewModels;
 
@@ -56,6 +57,9 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         ConvertAllCommand = new DelegateCommand(ConvertAll);
         ClearInputCommand = new DelegateCommand(ClearInput);
     }
+
+    public FontFamily IOFontFamily => _userSettings.IOFontFamily;
+    public int IOFontSize => _userSettings.IOFontSize;
 
     public ObservableCollection<PluginHost> AvailablePlugins
     {
@@ -286,9 +290,17 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 
     private void OnUserSettingsChanged(string propertyName)
     {
-        if (propertyName == nameof(_userSettings.UsePrettyValidatorAsConverter))
+        switch (propertyName)
         {
-            LoadAvailablePlugins();
+            case nameof(_userSettings.UsePrettyValidatorAsConverter):
+                LoadAvailablePlugins();
+                break;
+            case nameof(_userSettings.IOFontFamily):
+                RaisePropertyChanged(nameof(IOFontFamily));
+                break;
+            case nameof(_userSettings.IOFontSize):
+                RaisePropertyChanged(nameof(IOFontSize));
+                break;
         }
     }
 

@@ -403,6 +403,15 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
+        ///   Font に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingsPageDisplayFontFamily {
+            get {
+                return ResourceManager.GetString("SettingsPageDisplayFontFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Click on output text box to copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingsPageGeneralClickOutputToCopy {

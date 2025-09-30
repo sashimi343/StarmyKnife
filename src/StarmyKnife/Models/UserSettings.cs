@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 using StarmyKnife.Contracts.Services;
 using StarmyKnife.Events;
@@ -48,9 +50,47 @@ namespace StarmyKnife.Models
             set { SetSettings<string>(nameof(JsonPathSearchHistoriesText), value); }
         }
 
+        public FontFamily IOFontFamily
+        {
+            get
+            {
+                var fontFamilyName = GetSettings<string>(nameof(IOFontFamily));
+                var fontFamily = Fonts.SystemFontFamilies.FirstOrDefault(f => f.Source == fontFamilyName, new FontFamily("Segoe UI"));
+                return fontFamily;
+            }
+            set
+            {
+                SetSettings<string>(nameof(IOFontFamily), value.Source);
+            }
+        }
+
+        public int IOFontSize
+        {
+            get { return GetSettings<int>(nameof(IOFontSize), 12); }
+            set { SetSettings<int>(nameof(IOFontSize), value); }
+        }
+
         private T GetSettings<T>(string key, T defaultValue = default)
         {
-            return _appProperties.ContainsKey(key) ? (T)App.Current.Properties[key] : defaultValue;
+            try
+            {
+                if (!_appProperties.ContainsKey(key))
+                {
+                    return defaultValue;
+                }
+
+                object value = Type.GetTypeCode(typeof(T)) switch
+                {
+                    TypeCode.Int32 => Convert.ToInt32(_appProperties[key]),
+                    _ => _appProperties[key],
+                };
+
+                return (T)value;
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
         }
 
         private void SetSettings<T>(string key, T value)

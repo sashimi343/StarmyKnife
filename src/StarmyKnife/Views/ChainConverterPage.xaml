@@ -88,6 +88,9 @@
                     </Grid.RowDefinitions>
                     <TextBox Grid.Row="0"
                              Text="{Binding Input, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                             FontFamily="{Binding IOFontFamily}"
+                             FontSize="{Binding IOFontSize}"
+                             TextWrapping="Wrap"
                              AcceptsTab="True"
                              AcceptsReturn="True">
                         <i:Interaction.Triggers>
@@ -116,6 +119,9 @@
                     </StackPanel>
                     <TextBox Grid.Row="2"
                              Text="{Binding Output, Mode=OneWay}"
+                             TextWrapping="Wrap"
+                             FontFamily="{Binding IOFontFamily}"
+                             FontSize="{Binding IOFontSize}"
                              IsReadOnly="True"
                              behaviors:CopyToClipboardOnClickBehavior.IsEnabled="{Binding ClickOutputToCopy}">
                         <i:Interaction.Behaviors>

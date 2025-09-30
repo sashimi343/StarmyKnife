@@ -33,6 +33,38 @@
                     Style="{StaticResource SubtitleTextStyle}"
                     Text="{x:Static properties:Resources.SettingsPageGeneralTitle}" />
                 <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                    <TextBlock
+                        Style="{StaticResource BodyTextStyle}"
+                        Text="{x:Static properties:Resources.SettingsPageDisplayFontFamily}" />
+                    <Grid Margin="{StaticResource XSmallTopMargin}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox
+                            Grid.Row="0" Grid.Column="0"
+                            ItemsSource="{Binding AvailableFontFamilies}"
+                            SelectedValue="{Binding IOFontFamily, Mode=TwoWay}"
+                            SelectedValuePath="Value"
+                            TextSearch.TextPath="Key"
+                            IsEditable="True"
+                            IsTextSearchEnabled="True"
+                            IsTextSearchCaseSensitive="False"
+                            StaysOpenOnEdit="True">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Key}" FontFamily="{Binding Value}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Grid.Row="0"
+                                  Grid.Column="1"
+                                  ItemsSource="{Binding AvailableFontSizes, Mode=OneWay}"
+                                  SelectedItem="{Binding IOFontSize}" />
+                    </Grid>
                     <CheckBox
                         IsChecked="{Binding ClickOutputToCopy, Mode=TwoWay}"
                         Content="{x:Static properties:Resources.SettingsPageGeneralClickOutputToCopy}"

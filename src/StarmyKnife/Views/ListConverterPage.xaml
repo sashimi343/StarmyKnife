@@ -108,7 +108,24 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnInput}"
                                                     Width="*"
-                                                    Binding="{Binding Value}" />
+                                                    Binding="{Binding Value}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily"
+                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <Setter Property="FontSize"
+                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="FontFamily"
+                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <Setter Property="FontSize"
+                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
                             </DataGrid.Columns>
                             <DataGrid.ToolTip>
                                 <MultiBinding Converter="{StaticResource ErrorsToStringConverter}">
@@ -127,7 +144,24 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnOutput}"
                                                     Width="*"
-                                                    Binding="{Binding Value}" />
+                                                    Binding="{Binding Value}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily"
+                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <Setter Property="FontSize"
+                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="FontFamily"
+                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <Setter Property="FontSize"
+                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">

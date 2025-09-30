@@ -63,6 +63,8 @@
                      AcceptsTab="True"
                      TextWrapping="Wrap"
                      VerticalScrollBarVisibility="Auto"
+                     FontFamily="{Binding IOFontFamily}"
+                     FontSize="{Binding IOFontSize}"
                      Height="150"/>
             <Label Grid.Row="2" Grid.Column="0" Content="{Binding SelectedPathType}" />
             <ComboBox Grid.Row="2" Grid.Column="1"
@@ -77,10 +79,23 @@
                 <uc:ClipboardButton CopyText="{Binding SearchResults}" IsLinkStyle="True" />
                 <Label Content="{x:Static properties:Resources.XPathFinder_LabelSearchResults}" />
             </StackPanel>
-            <ListBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding SearchResults}">
+            <ListBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+                     ItemsSource="{Binding SearchResults}"
+                     HorizontalAlignment="Stretch">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBox Text="{Binding Mode=OneWay}" IsReadOnly="True" />
+                        <TextBox Text="{Binding Mode=OneWay}"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 HorizontalAlignment="Stretch"
+                                 HorizontalContentAlignment="Stretch"
+                                 FontFamily="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                 FontSize="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=ListBox}}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
