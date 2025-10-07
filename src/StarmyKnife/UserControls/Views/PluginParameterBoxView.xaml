@@ -43,21 +43,21 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="{Binding Name}" FontWeight="Bold" />
             <Button Grid.Row="0" Grid.Column="1" Width="30"
-                Command="{Binding DataContext.MoveUpPluginBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"
+                Command="{Binding DataContext.MoveUpPluginBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}, FallbackValue={x:Null}}"
                 CommandParameter="{Binding}"
                 Visibility="{Binding MoveButtonVisibility}"
                 IsEnabled="{Binding CanMoveUp}">
                 <materialDesign:PackIcon Kind="ArrowUp" Cursor="Hand" />
             </Button>
             <Button Grid.Row="0" Grid.Column="2" Width="30"
-                Command="{Binding DataContext.MoveDownPluginBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"
+                Command="{Binding DataContext.MoveDownPluginBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}, FallbackValue={x:Null}}"
                 CommandParameter="{Binding}"
                 Visibility="{Binding MoveButtonVisibility}"
                 IsEnabled="{Binding CanMoveDown}">
                 <materialDesign:PackIcon Kind="ArrowDown" Cursor="Hand" />
             </Button>
             <Button Grid.Row="0" Grid.Column="3" Width="30"
-                Command="{Binding DataContext.DeletePluginBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"
+                Command="{Binding DataContext.DeletePluginBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}, FallbackValue={x:Null}}"
                 CommandParameter="{Binding}"
                 Visibility="{Binding DeleteButtonVisibility}">
                 <materialDesign:PackIcon Kind="TrashCanOutline" Cursor="Hand" />
