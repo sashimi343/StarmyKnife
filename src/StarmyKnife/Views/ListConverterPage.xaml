@@ -98,17 +98,19 @@
                                     Width="200"
                                     Command="{Binding CopyOutputToClipboardCommand}" />
                         </StackPanel>
-                        <DataGrid Grid.Row="1" Grid.Column="0"
-                                  ItemsSource="{Binding InputItems}"
+                        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                  ItemsSource="{Binding Items}"
                                   GridLinesVisibility="All"
                                   AutoGenerateColumns="False"
                                   CanUserSortColumns="False"
                                   CanUserAddRows="True"
-                                  CanUserDeleteRows="True">
+                                  CanUserDeleteRows="True"
+                                  SelectionUnit="CellOrRowHeader"
+                                  SelectionMode="Extended">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnInput}"
-                                                    Width="*"
-                                                    Binding="{Binding Value}">
+                                                    Width="5*"
+                                                    Binding="{Binding Input, UpdateSourceTrigger=PropertyChanged}">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontFamily"
@@ -125,6 +127,19 @@
                                                     Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                         </Style>
                                     </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnOutput}"
+                                                    Width="5*"
+                                                    Binding="{Binding Output}"
+                                                    IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily"
+                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <Setter Property="FontSize"
+                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
                             <DataGrid.ToolTip>
@@ -132,37 +147,6 @@
                                     <Binding Path="(Validation.Errors)" RelativeSource="{RelativeSource Self}"/>
                                 </MultiBinding>
                             </DataGrid.ToolTip>
-                        </DataGrid>
-                        <DataGrid Grid.Row="1" Grid.Column="1"
-                                  ItemsSource="{Binding OutputItems}"
-                                  GridLinesVisibility="All"
-                                  AutoGenerateColumns="False"
-                                  CanUserSortColumns="False"
-                                  CanUserAddRows="False"
-                                  CanUserDeleteRows="False"
-                                  IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="{x:Static properties:Resources.ListConverter_ColumnOutput}"
-                                                    Width="*"
-                                                    Binding="{Binding Value}">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontFamily"
-                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                            <Setter Property="FontSize"
-                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                    <DataGridTextColumn.EditingElementStyle>
-                                        <Style TargetType="TextBox">
-                                            <Setter Property="FontFamily"
-                                                    Value="{Binding DataContext.IOFontFamily, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                            <Setter Property="FontSize"
-                                                    Value="{Binding DataContext.IOFontSize, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                        </Style>
-                                    </DataGridTextColumn.EditingElementStyle>
-                                </DataGridTextColumn>
-                            </DataGrid.Columns>
                         </DataGrid>
                         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                             <Button Content="{x:Static properties:Resources.ListConverter_ConvertButton}"
@@ -178,4 +162,3 @@
         </Grid>
     </Grid>
 </UserControl>
-    

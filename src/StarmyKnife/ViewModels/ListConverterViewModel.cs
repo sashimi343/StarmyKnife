@@ -21,6 +21,7 @@ namespace StarmyKnife.ViewModels;
 public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 {
     private static readonly string[] ClipboardTextDelimiters = new[] { "\r\n", "\r", "\n" };
+    private const int ErrorCountLimit = 3;
 
     private readonly IEventAggregator _eventAggregator;
     private readonly ErrorsContainer<string> _errors;
@@ -29,8 +30,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
     private readonly ObservableCollection<PluginHost> _availablePlugins;
     private readonly ObservableCollection<PluginParameterBoxViewModel> _pluginBoxes;
     private PluginHost _selectedPlugin;
-    private ObservableCollection<StringItem> _inputItems;
-    private ObservableCollection<StringItem> _outputItems;
+    private readonly ObservableCollection<ListConverterItem> _items;
 
     public ListConverterViewModel(IPluginLoaderService pluginLoader, IEventAggregator eventAggregator, UserSettings userSettings)
     {
@@ -44,8 +44,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         LoadAvailablePlugins();
         _pluginBoxes = new ObservableCollection<PluginParameterBoxViewModel>();
 
-        _inputItems = new ObservableCollection<StringItem>();
-        _outputItems = new ObservableCollection<StringItem>();
+        _items = new ObservableCollection<ListConverterItem>();
 
         MoveUpPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveUpPluginBox);
         MoveDownPluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(MoveDownPluginBox);
@@ -55,7 +54,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         SetInputFromClipboardCommand = new DelegateCommand(SetInputFromClipboard);
         CopyOutputToClipboardCommand = new DelegateCommand(CopyOutputToClipboard);
         ConvertAllCommand = new DelegateCommand(ConvertAll);
-        ClearInputCommand = new DelegateCommand(ClearInput);
+        ClearInputCommand = new DelegateCommand(ClearItems);
     }
 
     public FontFamily IOFontFamily => _userSettings.IOFontFamily;
@@ -77,16 +76,12 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         set { SetProperty(ref _selectedPlugin, value); }
     }
 
-    public ObservableCollection<StringItem> InputItems
+    public ObservableCollection<ListConverterItem> Items
     {
-        get { return _inputItems; }
-        set { SetProperty(ref _inputItems, value); }
-    }
-
-    public ObservableCollection<StringItem> OutputItems
-    {
-        get { return _outputItems; }
-        set { SetProperty(ref _outputItems, value); }
+        get
+        {
+            return _items;
+        }
     }
 
     public DelegateCommand<PluginParameterBoxViewModel> MoveUpPluginBoxCommand { get; }
@@ -164,7 +159,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 
     private void SetInputFromClipboard()
     {
-        ClearInput();
+        ClearItems();
         var clipboardText = Clipboard.GetText();
 
         if (string.IsNullOrEmpty(clipboardText))
@@ -176,16 +171,16 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 
         foreach (var line in clipboardLines)
         {
-            InputItems.Add(line);
+            Items.Add(new ListConverterItem(line));
         }
     }
 
     private void CopyOutputToClipboard()
     {
         var sb = new StringBuilder();
-        foreach (var output in OutputItems)
+        foreach (var item in Items)
         {
-            sb.AppendLine(output.Value);
+            sb.AppendLine(item.Output);
         }
 
         Clipboard.SetText(sb.ToString());
@@ -193,41 +188,28 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 
     private void ConvertAll()
     {
-        PrepareOutputItems();
-        for (var i = 0; i < OutputItems.Count; i++)
+        var errorsCount = 0;
+        for (var i = 0; i < Items.Count; i++)
         {
-            var conversionSuccess = Convert(i);
+            var conversionSuccess = Convert(Items[i]);
             if (!conversionSuccess)
             {
                 MessageBox.Show(BuildConversionErrorMessage(i), "Conversion Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                break;
+                errorsCount++;
+                if (errorsCount > ErrorCountLimit)
+                {
+                    MessageBox.Show("Too many errors occurred. Stopping further conversions.", "Conversion Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+                }
             }
         }
     }
 
-    private void PrepareOutputItems()
+    private bool Convert(ListConverterItem item)
     {
-        OutputItems.Clear();
-        for (int i = 0; i < InputItems.Count; i++)
-        {
-            OutputItems.Add("");
-        }
-    }
-
-    private bool Convert(int index)
-    {
-        var input = InputItems[index].Value;
-
-        if (string.IsNullOrEmpty(input))
-        {
-            OutputItems[index] = "";
-            _errors.ClearErrors(nameof(InputItems));
-            return true;
-        }
-
         try
         {
-            var tmpOutput = input;
+            var tmpOutput = item.Input;
 
             foreach (PluginParameterBoxViewModel box in PluginBoxes)
             {
@@ -237,21 +219,21 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 
                 if (!conversionResult.Success)
                 {
-                    _errors.SetErrorsIfChanged(nameof(InputItems), conversionResult.Errors);
-                    OutputItems[index] = "";
+                    _errors.SetErrorsIfChanged(nameof(Items), conversionResult.Errors);
+                    item.Output = "";
                     return false;
                 }
 
                 tmpOutput = conversionResult.Value;
             }
 
-            OutputItems[index] = tmpOutput;
-            _errors.ClearErrors(nameof(input));
+            item.Output = tmpOutput;
+            _errors.ClearErrors(nameof(Items));
         }
         catch (Exception ex)
         {
-            _errors.SetErrorsFromException(nameof(InputItems), ex);
-            OutputItems[index] = "";
+            _errors.SetErrorsFromException(nameof(Items), ex);
+            item.Output = "";
             return false;
         }
 
@@ -263,7 +245,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         var sb = new StringBuilder();
         sb.AppendFormat($"Error while converting {0}-th input:", index + 1);
         sb.AppendLine("");
-        var errors = _errors.GetErrors(nameof(InputItems));
+        var errors = _errors.GetErrors(nameof(Items));
         foreach (var error in errors)
         {
             sb.AppendLine(error);
@@ -272,9 +254,9 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
         return sb.ToString();
     }
 
-    private void ClearInput()
+    private void ClearItems()
     {
-        InputItems.Clear();
+        Items.Clear();
         _errors.ClearErrors();
     }
 
