@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [1.0.2.0] - 2025-10-14
+
+### Added
+
+* New builtin converters
+  * Narrow to wide / wide to narrow conversion
+  * Unicode normalization (NFC, NFD, NFKC, NFKD)
+  * Japanese hiragana to katakana / katakana to hiragana conversion
+
+### Changed
+
+* Synchronised scrolling of input and output rows in ListConverter
+
 ## [1.0.1.0] - 2025-09-30
 
 ### Added
