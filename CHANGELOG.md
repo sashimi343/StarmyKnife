@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [1.1.0.0] - 2025-10-18
+
+### Added
+
+* Counter: tool for counting characters, words, lines, etc. in the input string
+* New builtin converter:
+  * Convert from/to quoted-printable encoding
+  * Print input as hexdump format
+  * Sort input items
+  * Split and join by specified delimiters
+  * Unique items extraction
+  * Remove null (0x00) characters from input
+
 ## [1.0.2.0] - 2025-10-14
 
 ### Added
