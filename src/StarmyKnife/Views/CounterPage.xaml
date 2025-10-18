@@ -1,0 +1,94 @@
+﻿<UserControl
+    x:Class="StarmyKnife.Views.CounterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:StarmyKnife.ViewModels"
+    xmlns:converters="clr-namespace:StarmyKnife.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:properties="clr-namespace:StarmyKnife.Properties"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Style="{StaticResource BaseUserControlStyle}"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:CounterViewModel}"
+    d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Style="{StaticResource PageTitleStyle}"
+            Margin="{StaticResource MediumLeftMargin}"
+            Text="{x:Static properties:Resources.CounterPageTitle}" />
+        <Grid Grid.Row="1" Margin="{StaticResource MediumLeftRightMargin}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                 Margin="{StaticResource SmallTopBottomMargin}"
+                 FontFamily="{Binding IOFontFamily}"
+                 FontSize="{Binding IOFontSize}"
+                 AcceptsTab="True"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Grid.Row="0" Grid.Column="1"
+                        Orientation="Vertical"
+                        Margin="{StaticResource SmallLeftTopRightBottomMargin}">
+                <TextBlock Text="{x:Static properties:Resources.Counter_EncodingForByteCountLabel}" />
+                <ComboBox Width="Auto"
+                          Margin="{StaticResource XSmallTopMargin}"
+                          ItemsSource="{Binding AvailableEncodings}"
+                          SelectedItem="{Binding SelectedEncoding}"
+                          DisplayMemberPath="Name"
+                          />
+                <Border VerticalAlignment="Bottom"
+                        Height="1"
+                        Margin="{StaticResource SmallTopBottomMargin}"
+                        Background="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1"
+                        Orientation="Vertical"
+                        Margin="{StaticResource SmallLeftTopRightBottomMargin}">
+                <StackPanel.Resources>
+                    <Style x:Key="CounterStatsLabelStyle" TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Bottom" />
+                        <Setter Property="Margin" Value="{StaticResource XSmallTopMargin}" />
+                        <Setter Property="FontSize" Value="16" />
+                    </Style>
+                    <Style x:Key="CounterStatsTextStyle" TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Bottom" />
+                        <Setter Property="Margin" Value="{StaticResource XSmallTopMargin}" />
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <TextBlock Style="{StaticResource CounterStatsLabelStyle}" Text="{x:Static properties:Resources.Counter_ByteCountLabel}" />
+                <TextBlock Style="{StaticResource CounterStatsTextStyle}" Text="{Binding ByteCount, StringFormat={}{0:N0}}" />
+                <TextBlock Text="{Binding ByteCountErrorMessage}"
+                           Visibility="{Binding ByteCountErrorMessageVisibility}"
+                           TextWrapping="Wrap"
+                           Foreground="Red"
+                           />
+
+                <TextBlock Style="{StaticResource CounterStatsLabelStyle}" Text="{x:Static properties:Resources.Counter_CharCountLabel}" />
+                <TextBlock Style="{StaticResource CounterStatsTextStyle}" Text="{Binding CharCount, StringFormat={}{0:N0}}" />
+
+                <TextBlock Style="{StaticResource CounterStatsLabelStyle}" Text="{x:Static properties:Resources.Counter_TextElementCount}" />
+                <TextBlock Style="{StaticResource CounterStatsTextStyle}" Text="{Binding TextElementCount, StringFormat={}{0:N0}}" />
+
+                <TextBlock Style="{StaticResource CounterStatsLabelStyle}" Text="{x:Static properties:Resources.Counter_WordCountLabel}" />
+                <TextBlock Style="{StaticResource CounterStatsTextStyle}" Text="{Binding WordCount, StringFormat={}{0:N0}}" />
+
+                <TextBlock Style="{StaticResource CounterStatsLabelStyle}" Text="{x:Static properties:Resources.Counter_LineCountLabel}" />
+                <TextBlock Style="{StaticResource CounterStatsTextStyle}" Text="{Binding LineCount, StringFormat={}{0:N0}}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

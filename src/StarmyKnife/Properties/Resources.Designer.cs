@@ -178,6 +178,78 @@ namespace StarmyKnife.Properties {
         }
         
         /// <summary>
+        ///   Bytes: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_ByteCountLabel {
+            get {
+                return ResourceManager.GetString("Counter_ByteCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Chars: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_CharCountLabel {
+            get {
+                return ResourceManager.GetString("Counter_CharCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Encoding for byte count: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_EncodingForByteCountLabel {
+            get {
+                return ResourceManager.GetString("Counter_EncodingForByteCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The selected encoding cannot encode the input text. Please select a different encoding. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_InvalidEncodingErrorMessage {
+            get {
+                return ResourceManager.GetString("Counter_InvalidEncodingErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lines: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_LineCountLabel {
+            get {
+                return ResourceManager.GetString("Counter_LineCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Text elements: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_TextElementCount {
+            get {
+                return ResourceManager.GetString("Counter_TextElementCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Words: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Counter_WordCountLabel {
+            get {
+                return ResourceManager.GetString("Counter_WordCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Counter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CounterPageTitle {
+            get {
+                return ResourceManager.GetString("CounterPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Csql に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CsqlPageTitle {
@@ -498,6 +570,15 @@ namespace StarmyKnife.Properties {
         public static string ShellChainConverterPage {
             get {
                 return ResourceManager.GetString("ShellChainConverterPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Counter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShellCounterPage {
+            get {
+                return ResourceManager.GetString("ShellCounterPage", resourceCulture);
             }
         }
         

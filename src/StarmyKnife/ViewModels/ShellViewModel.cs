@@ -48,6 +48,7 @@ public class ShellViewModel : BindableBase
         //new HamburgerMenuIconItem() { Label = Resources.ShellCsqlPage, Icon = PackIconKind.CommaCircle, Tag = PageKeys.Csql },
         new HamburgerMenuIconItem() { Label = Resources.ShellXPathFinderPage, Icon = PackIconKind.TextSearchVariant, Tag = PageKeys.XPathFinder },
         new HamburgerMenuIconItem() { Label = Resources.ShellListConverterPage, Icon = PackIconKind.TableArrowRight, Tag = PageKeys.ListConverter },
+        new HamburgerMenuIconItem() { Label = Resources.ShellCounterPage, Icon = PackIconKind.Counter, Tag = PageKeys.Counter }
     };
 
     public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()

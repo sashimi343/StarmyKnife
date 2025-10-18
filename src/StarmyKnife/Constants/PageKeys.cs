@@ -10,4 +10,5 @@ public class PageKeys
     public const string Csql = "Csql";
     public const string XPathFinder = "XPathFinder";
     public const string ListConverter = "ListConverter";
+    public const string Counter = "Counter";
 }

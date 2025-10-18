@@ -14,9 +14,9 @@ using Prism.Unity;
 using StarmyKnife.Constants;
 using StarmyKnife.Contracts.Services;
 using StarmyKnife.Core.Contracts.Services;
-using StarmyKnife.PluginInterfaces;
 using StarmyKnife.Core.Services;
 using StarmyKnife.Models;
+using StarmyKnife.PluginInterfaces;
 using StarmyKnife.Services;
 using StarmyKnife.ViewModels;
 using StarmyKnife.Views;
@@ -95,6 +95,7 @@ public partial class App : PrismApplication
         containerRegistry.Register<IAppPropertiesWrapper, AppPropertiesWrapper>();
 
         // Views
+        containerRegistry.RegisterForNavigation<CounterPage, CounterViewModel>(PageKeys.Counter);
         containerRegistry.RegisterForNavigation<ListConverterPage, ListConverterViewModel>(PageKeys.ListConverter);
         containerRegistry.RegisterForNavigation<XPathFinderPage, XPathFinderViewModel>(PageKeys.XPathFinder);
         containerRegistry.RegisterForNavigation<CsqlPage, CsqlViewModel>(PageKeys.Csql);

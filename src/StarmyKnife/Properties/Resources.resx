@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ShellCounterPage" xml:space="preserve">
+    <value>Counter</value>
+  </data>
+  <data name="CounterPageTitle" xml:space="preserve">
+    <value>Counter</value>
+  </data>
   <data name="ShellListConverterPage" xml:space="preserve">
     <value>ListConverter</value>
   </data>
@@ -296,5 +302,26 @@
   </data>
   <data name="SettingsPageDisplayFontFamily" xml:space="preserve">
     <value>Font</value>
+  </data>
+  <data name="Counter_ByteCountLabel" xml:space="preserve">
+    <value>Bytes:</value>
+  </data>
+  <data name="Counter_CharCountLabel" xml:space="preserve">
+    <value>Chars:</value>
+  </data>
+  <data name="Counter_TextElementCount" xml:space="preserve">
+    <value>Text elements:</value>
+  </data>
+  <data name="Counter_WordCountLabel" xml:space="preserve">
+    <value>Words:</value>
+  </data>
+  <data name="Counter_LineCountLabel" xml:space="preserve">
+    <value>Lines:</value>
+  </data>
+  <data name="Counter_EncodingForByteCountLabel" xml:space="preserve">
+    <value>Encoding for byte count:</value>
+  </data>
+  <data name="Counter_InvalidEncodingErrorMessage" xml:space="preserve">
+    <value>The selected encoding cannot encode the input text. Please select a different encoding.</value>
   </data>
 </root>

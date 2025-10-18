@@ -31,6 +31,10 @@ Perform string searches using XPath or JSON paths.
 
 Apply a ChainConverter-like string conversion process to multiple strings at once.
 
+### Counter
+
+Count the number of characters, words, lines, etc. in the input string.
+
 ## Lisence
 
 This software is released under MIT License, see the [LICENSE.txt](LICENSE.txt) for details.
