@@ -14,6 +14,13 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             public const string Replacement = "Replacement";
             public const string UseRegex = "UseRegex";
             public const string IgnoreCase = "IgnoreCase";
+            public const string RegexMode = "RegexMode";
+        }
+
+        public enum RegexMode
+        {
+            SingleLine,
+            MultiLine
         }
 
         public PluginInvocationResult Convert(string input, PluginParameterCollection parameters)
@@ -27,7 +34,7 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
                 return PluginInvocationResult.OfSuccess(input);
             }
 
-            var options = GetRegexOptions(parameters);
+            var options = GetRegexOptions(useRegex, parameters);
             Regex pattern;
             string replacement;
 
@@ -59,15 +66,33 @@ namespace StarmyKnife.Core.Plugins.BuiltIn.Converters
             configuration.AddTextParameter(ParameterKeys.Pattern);
             configuration.AddTextParameter(ParameterKeys.Replacement);
             configuration.AddFlagParameter(ParameterKeys.UseRegex);
+            configuration.AddListParameter(ParameterKeys.RegexMode, RegexMode.SingleLine);
             configuration.AddFlagParameter(ParameterKeys.IgnoreCase);
         }
 
-        private RegexOptions GetRegexOptions(PluginParameterCollection parameters)
+        private RegexOptions GetRegexOptions(bool useRegex, PluginParameterCollection parameters)
         {
             var options = RegexOptions.None;
             if (parameters[ParameterKeys.IgnoreCase].GetValue<bool>())
             {
                 options |= RegexOptions.IgnoreCase;
+            }
+
+            // If not using regex, no need to set other options
+            if (!useRegex)
+            {
+                return options;
+            }
+
+            var regexMode = parameters[ParameterKeys.RegexMode].GetValue<RegexMode>();
+            switch (regexMode)
+            {
+                case RegexMode.SingleLine:
+                    options |= RegexOptions.Singleline;
+                    break;
+                case RegexMode.MultiLine:
+                    options |= RegexOptions.Multiline;
+                    break;
             }
 
             return options;
