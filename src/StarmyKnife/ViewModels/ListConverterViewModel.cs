@@ -119,6 +119,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
             {
                 IsDeletable = true,
                 IsMovable = true,
+                IsDisablable = true,
             };
             PluginBoxes.Add(newPluginBox);
             UpdatePluginBoxMovability();
@@ -213,6 +214,11 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
 
             foreach (PluginParameterBoxViewModel box in PluginBoxes)
             {
+                if (!box.IsEnabled)
+                {
+                    continue;
+                }
+
                 var plugin = (IConverter)box.Plugin;
                 var parameter = box.Parameters;
                 var conversionResult = plugin.Convert(tmpOutput, parameter);
@@ -243,7 +249,7 @@ public class ListConverterViewModel : BindableBase, INotifyDataErrorInfo
     private string BuildConversionErrorMessage(int index)
     {
         var sb = new StringBuilder();
-        sb.AppendFormat($"Error while converting {0}-th input:", index + 1);
+        sb.AppendFormat("Error while converting {0}-th input:", index + 1);
         sb.AppendLine("");
         var errors = _errors.GetErrors(nameof(Items));
         foreach (var error in errors)

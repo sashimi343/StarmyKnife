@@ -129,7 +129,8 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
             var newPluginBox = new PluginParameterBoxViewModel(SelectedPlugin, _eventAggregator)
             {
                 IsDeletable = true,
-                IsMovable = true
+                IsMovable = true,
+                IsDisablable = true,
             };
             PluginBoxes.Add(newPluginBox);
             UpdatePluginBoxMovability();
@@ -183,6 +184,11 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
 
             foreach (PluginParameterBoxViewModel box in PluginBoxes)
             {
+                if (!box.IsEnabled)
+                {
+                    continue;
+                }
+
                 var plugin = (IConverter)box.Plugin;
                 var parameter = box.Parameters;
                 var conversionResult = plugin.Convert(tmpOutput, parameter);

@@ -14,6 +14,12 @@ public class ThemeSelectorService : IThemeSelectorService
     private const string HcDarkTheme = "pack://application:,,,/Styles/Themes/HC.Dark.Blue.xaml";
     private const string HcLightTheme = "pack://application:,,,/Styles/Themes/HC.Light.Blue.xaml";
 
+    private const string SystemThemeRegistryKey = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+    private const string SystemThemeRegistryName = "AppsUseLightTheme";
+
+    private static readonly Uri CustomDarkThemeUri = new("Styles/Themes/CustomTheme.Dark.xaml", UriKind.Relative);
+    private static readonly Uri CustomLightThemeUri = new("Styles/Themes/CustomTheme.Light.xaml", UriKind.Relative);
+
     public ThemeSelectorService()
     {
     }
@@ -44,6 +50,8 @@ public class ThemeSelectorService : IThemeSelectorService
             ThemeManager.Current.ChangeTheme(Application.Current, $"{theme}.Blue", SystemParameters.HighContrast);
         }
 
+        ReplaceCustomThemeDictionary(theme);
+
         App.Current.Properties["Theme"] = theme.ToString();
     }
 
@@ -57,5 +65,45 @@ public class ThemeSelectorService : IThemeSelectorService
         }
 
         return AppTheme.Default;
+    }
+
+    private void ReplaceCustomThemeDictionary(AppTheme theme)
+    {
+        if (theme == AppTheme.Default)
+        {
+            theme = GetSystemTheme();
+        }
+
+        var appResources = Application.Current.Resources.MergedDictionaries;
+
+        var current = appResources
+            .FirstOrDefault(x => x.Source != null
+                              && x.Source.OriginalString.StartsWith("Themes/CustomTheme"));
+        if (current != null)
+        {
+            appResources.Remove(current);
+        }
+
+        var newThemeUri = (theme == AppTheme.Dark)
+            ? CustomDarkThemeUri
+            : CustomLightThemeUri;
+
+        appResources.Add(new ResourceDictionary { Source = newThemeUri });
+    }
+
+    private AppTheme GetSystemTheme()
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(SystemThemeRegistryKey);
+            if (key?.GetValue(SystemThemeRegistryName) is int registryValue)
+            {
+                return registryValue == 1 ? AppTheme.Light : AppTheme.Dark;
+            }
+        }
+        catch
+        {
+        }
+        return AppTheme.Light;
     }
 }

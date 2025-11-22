@@ -18,11 +18,12 @@ namespace StarmyKnife.UserControls.ViewModels
     public class PluginParameterBoxViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
-        private PluginHost _pluginHost;
-        private PluginParameterCollection _parameters;
+        private readonly PluginHost _pluginHost;
+        private readonly PluginParameterCollection _parameters;
         private List<PluginParameterViewModelBase> _parameterViewModels;
         private bool _canMoveUp;
         private bool _canMoveDown;
+        private bool _isEnabled;
 
         public ObservableCollection<PluginParameterViewModelBase> ParametersViewModels
         {
@@ -42,6 +43,16 @@ namespace StarmyKnife.UserControls.ViewModels
         public string Name => $"[{_pluginHost.Name}]";
 
         public bool IsDeletable { get; set; } = false;
+
+        public bool IsDisablable { get; set; } = false;
+
+        public Visibility DisabledCheckboxVisibility
+        {
+            get
+            {
+                return IsDisablable ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
         public Visibility DeleteButtonVisibility
         {
@@ -73,6 +84,16 @@ namespace StarmyKnife.UserControls.ViewModels
             set { SetProperty(ref _canMoveDown, value); }
         }
 
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                SetProperty(ref _isEnabled, value);
+                OnParameterChanged();
+            }
+        }
+
         public Visibility NoParametersLabelVisibility
         {
             get
@@ -89,6 +110,7 @@ namespace StarmyKnife.UserControls.ViewModels
             _pluginHost = pluginHost;
             _parameters = _pluginHost.Plugin.GetParametersSchema();
             _parameterViewModels = new List<PluginParameterViewModelBase>();
+            IsEnabled = true;
 
             foreach (var parameter in _parameters.Values)
             {

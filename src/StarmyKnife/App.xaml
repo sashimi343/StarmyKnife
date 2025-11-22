@@ -26,6 +26,8 @@
                 <!-- Override of MahApps.Metro style -->
                 <ResourceDictionary Source="/Styles/TabControl.xaml" />
                 <ResourceDictionary Source="/Styles/LinkButtonStyle.xaml" />
+                <!-- Custom theme -->
+                <ResourceDictionary Source="/Styles/Themes/CustomTheme.Light.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
