@@ -7,5 +7,7 @@ namespace StarmyKnife.PluginInterfaces
     public interface IPluginMetadata
     {
         string Name { get; }
+        string Category { get; }
+        string? HelpText { get; }
     }
 }

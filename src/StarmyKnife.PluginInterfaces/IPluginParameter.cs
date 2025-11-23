@@ -8,6 +8,7 @@ namespace StarmyKnife.PluginInterfaces
     {
         string Key { get; }
         string Name { get; }
+        string? HelpText { get; }
 
         T GetValue<T>();
         void SetValue(object value);

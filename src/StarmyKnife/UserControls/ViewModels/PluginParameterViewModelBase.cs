@@ -13,12 +13,16 @@ namespace StarmyKnife.UserControls.ViewModels
 {
     public abstract class PluginParameterViewModelBase : BindableBase
     {
+        private readonly IPluginParameter _pluginParameter;
         protected readonly IEventAggregator _eventAggregator;
 
         public string Name { get; }
+        public string HelpText => _pluginParameter.HelpText ?? string.Empty;
+        public bool HasHelpText => !string.IsNullOrWhiteSpace(_pluginParameter.HelpText);
 
         public PluginParameterViewModelBase(IPluginParameter parameter, IEventAggregator eventAggregator)
         {
+            _pluginParameter = parameter;
             _eventAggregator = eventAggregator;
             Name = parameter.Name;
         }

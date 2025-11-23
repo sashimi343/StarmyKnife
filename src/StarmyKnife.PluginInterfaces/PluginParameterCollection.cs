@@ -87,21 +87,9 @@ namespace StarmyKnife.PluginInterfaces
             var clone = new PluginParameterCollection();
             foreach (var parameter in _parameters)
             {
-                if (parameter.Value is TextPluginParameter textParameter)
+                if (parameter.Value is IPluginParameterInternal clonableParameter)
                 {
-                    clone.Add(new TextPluginParameter(textParameter.Key, textParameter.Name, textParameter.Text));
-                }
-                else if (parameter.Value is FlagPluginParameter flagParameter)
-                {
-                    clone.Add(new FlagPluginParameter(flagParameter.Key, flagParameter.Name, flagParameter.Value));
-                }
-                else if (parameter.Value is ListPluginParameter listParameter)
-                {
-                    clone.Add(new ListPluginParameter(listParameter.Key, listParameter.Name, listParameter.Items, listParameter.SelectedIndex));
-                }
-                else if (parameter.Value is NumericPluginParameter numberParameter)
-                {
-                    clone.Add(new NumericPluginParameter(numberParameter.Key, numberParameter.Name, numberParameter.IsInteger, numberParameter.Value));
+                    clone.Add(clonableParameter.Clone());
                 }
                 else
                 {

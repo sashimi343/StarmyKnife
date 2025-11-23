@@ -41,15 +41,15 @@ namespace StarmyKnife.PluginInterfaces
             return AddFlagParameter(key, name, false);
         }
 
-        public PluginParametersConfiguration AddFlagParameter(string key, bool defaultValue)
+        public PluginParametersConfiguration AddFlagParameter(string key, bool defaultValue, string? helpText = null)
         {
-            _parameters.Add(new FlagPluginParameter(key, key, defaultValue));
+            _parameters.Add(new FlagPluginParameter(key, key, defaultValue) { HelpText = helpText });
             return this;
         }
 
-        public PluginParametersConfiguration AddFlagParameter(string key, string name, bool defaultValue)
+        public PluginParametersConfiguration AddFlagParameter(string key, string name, bool defaultValue, string? helpText = null)
         {
-            _parameters.Add(new FlagPluginParameter(key, name, defaultValue));
+            _parameters.Add(new FlagPluginParameter(key, name, defaultValue) { HelpText = helpText });
             return this;
         }
         #endregion
@@ -65,9 +65,9 @@ namespace StarmyKnife.PluginInterfaces
             return AddTextParameter(key, name, "");
         }
 
-        public PluginParametersConfiguration AddTextParameter(string key, string name, string defaultValue)
+        public PluginParametersConfiguration AddTextParameter(string key, string name, string defaultValue, string? helpText = null)
         {
-            _parameters.Add(new TextPluginParameter(key, name, defaultValue));
+            _parameters.Add(new TextPluginParameter(key, name, defaultValue) { HelpText = helpText });
             return this;
         }
         #endregion
@@ -83,19 +83,19 @@ namespace StarmyKnife.PluginInterfaces
             return AddListParameter<T>(key, name, default!);
         }
 
-        public PluginParametersConfiguration AddListParameter<T>(string key, T defaultValue) where T : Enum
+        public PluginParametersConfiguration AddListParameter<T>(string key, T defaultValue, string? helpText = null) where T : Enum
         {
             var items = Enum.GetValues(typeof(T)).Cast<T>().Select(e => new ListItem(e.GetDisplayName(), e)).ToList();
             var defaultIndex = items.FindIndex(i => i.Value.Equals(defaultValue));
-            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
-        public PluginParametersConfiguration AddListParameter<T>(string key, string name, T defaultValue) where T : Enum
+        public PluginParametersConfiguration AddListParameter<T>(string key, string name, T defaultValue, string? helpText = null) where T : Enum
         {
             var items = Enum.GetValues(typeof(T)).Cast<T>().Select(e => new ListItem(e.GetDisplayName(), e)).ToList();
             var defaultIndex = items.FindIndex(i => i.Value.Equals(defaultValue));
-            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
@@ -109,34 +109,34 @@ namespace StarmyKnife.PluginInterfaces
             return AddListParameter(key, name, labels, 0);
         }
 
-        public PluginParametersConfiguration AddListParameter(string key, string name, IEnumerable<string> labels, int defaultIndex)
+        public PluginParametersConfiguration AddListParameter(string key, string name, IEnumerable<string> labels, int defaultIndex, string? helpText = null)
         {
             var items = labels.Select(l => new ListItem(l, l)).ToList();
-            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
-        public PluginParametersConfiguration AddListParameter(string key, IEnumerable<string> labels, int defaultIndex)
+        public PluginParametersConfiguration AddListParameter(string key, IEnumerable<string> labels, int defaultIndex, string? helpText = null)
         {
             var items = labels.Select(l => new ListItem(l, l)).ToList();
-            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
-        public PluginParametersConfiguration AddListParameter(string key, string name, IEnumerable<string> labels, string defaultValue)
+        public PluginParametersConfiguration AddListParameter(string key, string name, IEnumerable<string> labels, string defaultValue, string? helpText = null)
         {
             var items = labels.Select(l => new ListItem(l, l)).ToList();
             var defaultIndex = items.FindIndex(i => i.Value.Equals(defaultValue));
-            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
 
-        public PluginParametersConfiguration AddListParameter(string key, IEnumerable<string> labels, string defaultValue)
+        public PluginParametersConfiguration AddListParameter(string key, IEnumerable<string> labels, string defaultValue, string? helpText = null)
         {
             var items = labels.Select(l => new ListItem(l, l)).ToList();
             var defaultIndex = items.FindIndex(i => i.Value.Equals(defaultValue));
-            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
@@ -150,15 +150,15 @@ namespace StarmyKnife.PluginInterfaces
             return AddListParameter(key, name, items, 0);
         }
 
-        public PluginParametersConfiguration AddListParameter(string key, IEnumerable<ListItem> items, int defaultIndex)
+        public PluginParametersConfiguration AddListParameter(string key, IEnumerable<ListItem> items, int defaultIndex, string? helpText = null)
         {
-            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, key, items, defaultIndex) { HelpText = helpText });
             return this;
         }
 
-        public PluginParametersConfiguration AddListParameter(string key, string name, IEnumerable<ListItem> items, int defaultIndex)
+        public PluginParametersConfiguration AddListParameter(string key, string name, IEnumerable<ListItem> items, int defaultIndex, string? helpText = null)
         {
-            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex));
+            _parameters.Add(new ListPluginParameter(key, name, items, defaultIndex) { HelpText = helpText });
             return this;
         }
         #endregion
@@ -174,14 +174,14 @@ namespace StarmyKnife.PluginInterfaces
             return AddIntegerParameter(key, name, 0);
         }
 
-        public PluginParametersConfiguration AddIntegerParameter(string key, int defaultValue)
+        public PluginParametersConfiguration AddIntegerParameter(string key, int defaultValue, string? helpText = null)
         {
-            return AddIntegerParameter(key, key, defaultValue);
+            return AddIntegerParameter(key, key, defaultValue, helpText);
         }
 
-        public PluginParametersConfiguration AddIntegerParameter(string key, string name, int defaultValue)
+        public PluginParametersConfiguration AddIntegerParameter(string key, string name, int defaultValue, string? helpText = null)
         {
-            _parameters.Add(new NumericPluginParameter(key, name, true, defaultValue));
+            _parameters.Add(new NumericPluginParameter(key, name, true, defaultValue) { HelpText = helpText });
             return this;
         }
 
@@ -195,14 +195,14 @@ namespace StarmyKnife.PluginInterfaces
             return AddDecimalParameter(key, name, 0);
         }
 
-        public PluginParametersConfiguration AddDecimalParameter(string key, decimal defaultValue)
+        public PluginParametersConfiguration AddDecimalParameter(string key, decimal defaultValue, string? helpText = null)
         {
-            return AddDecimalParameter(key, key, defaultValue);
+            return AddDecimalParameter(key, key, defaultValue, helpText);
         }
 
-        public PluginParametersConfiguration AddDecimalParameter(string key, string name, decimal defaultValue)
+        public PluginParametersConfiguration AddDecimalParameter(string key, string name, decimal defaultValue, string? helpText = null)
         {
-            _parameters.Add(new NumericPluginParameter(key, name, false, defaultValue));
+            _parameters.Add(new NumericPluginParameter(key, name, false, defaultValue) { HelpText = helpText });
             return this;
         }
         #endregion

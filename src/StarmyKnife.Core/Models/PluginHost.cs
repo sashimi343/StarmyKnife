@@ -12,6 +12,8 @@ namespace StarmyKnife.Core.Models
         public PluginParameterCollection Parameters { get; }
 
         public string Name => Metadata.Name;
+        public string HelpText => Metadata.HelpText;
+        public bool HasHelpText => !string.IsNullOrWhiteSpace(Metadata.HelpText);
 
         internal PluginHost(IPlugin plugin, IPluginMetadata metadata)
         {

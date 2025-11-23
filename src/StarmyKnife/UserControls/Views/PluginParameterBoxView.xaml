@@ -54,7 +54,22 @@
                 <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="{Binding Name}" FontWeight="Bold" />
+            <Label Grid.Row="0" Grid.Column="0"
+                   ToolTip="{Binding HelpText}"
+                   ToolTipService.IsEnabled="{Binding HasHelpText}">
+                <TextBlock Text="{Binding Name}" FontWeight="Bold">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextDecorations" Value="{x:Null}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasHelpText}" Value="True">
+                                    <Setter Property="TextDecorations" Value="{x:Static TextDecorations.Underline}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Label>
             <CheckBox Grid.Row="0" Grid.Column="1"
                       IsChecked="{Binding IsEnabled}"
                       Visibility="{Binding DisabledCheckboxVisibility}"

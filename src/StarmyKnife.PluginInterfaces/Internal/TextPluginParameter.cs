@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StarmyKnife.PluginInterfaces.Internal
 {
-    public sealed class TextPluginParameter : IPluginParameter
+    public sealed class TextPluginParameter : IPluginParameter, IPluginParameterInternal
     {
         private readonly string _key;
         private readonly string _name;
@@ -20,6 +20,8 @@ namespace StarmyKnife.PluginInterfaces.Internal
         public string Key => _key;
 
         public string Name => _name;
+
+        public string? HelpText { get; set; }
 
         public string Text
         {
@@ -53,6 +55,15 @@ namespace StarmyKnife.PluginInterfaces.Internal
             {
                 throw new ArgumentException("Value must be a string");
             }
+        }
+
+        IPluginParameter IPluginParameterInternal.Clone()
+        {
+            var clone = new TextPluginParameter(_key, _name, _value)
+            {
+                HelpText = HelpText
+            };
+            return clone;
         }
     }
 }

@@ -13,7 +13,20 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="{Binding Name}" />
+        <Label Grid.Column="0" ToolTip="{Binding HelpText}" ToolTipService.IsEnabled="{Binding HasHelpText}">
+            <TextBlock Text="{Binding Name}" FontWeight="Bold">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextDecorations" Value="{x:Null}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasHelpText}" Value="True">
+                                <Setter Property="TextDecorations" Value="{x:Static TextDecorations.Underline}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Label>
         <local:NumericTextBox Grid.Column="1" IsInteger="True" Text="{Binding Value}" />
     </Grid>
 </UserControl>

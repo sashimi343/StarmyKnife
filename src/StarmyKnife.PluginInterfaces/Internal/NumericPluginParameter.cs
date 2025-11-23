@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StarmyKnife.PluginInterfaces.Internal
 {
-    public class NumericPluginParameter : IPluginParameter
+    public class NumericPluginParameter : IPluginParameter, IPluginParameterInternal
     {
         private readonly string _key;
         private readonly string _name;
@@ -13,6 +13,7 @@ namespace StarmyKnife.PluginInterfaces.Internal
 
         public string Key => _key;
         public string Name => _name;
+        public string? HelpText { get; set; }
         public bool IsInteger => _isInteger;
         public decimal Value
         {
@@ -95,6 +96,15 @@ namespace StarmyKnife.PluginInterfaces.Internal
                     || type == typeof(float)
                     || type == typeof(double)
                     || type == typeof(decimal);
+        }
+
+        IPluginParameter IPluginParameterInternal.Clone()
+        {
+            var clone = new NumericPluginParameter(_key, _name, _isInteger, _value)
+            {
+                HelpText = HelpText
+            };
+            return clone;
         }
     }
 }

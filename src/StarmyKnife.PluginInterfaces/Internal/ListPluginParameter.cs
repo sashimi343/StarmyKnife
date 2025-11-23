@@ -5,11 +5,11 @@ using System.Text;
 
 namespace StarmyKnife.PluginInterfaces.Internal
 {
-    public sealed class ListPluginParameter : IPluginParameter
+    public sealed class ListPluginParameter : IPluginParameter, IPluginParameterInternal
     {
         private readonly string _key;
         private readonly string _name;
-        private List<ListItem> _items;
+        private readonly List<ListItem> _items;
         private int _selectedIndex;
 
         internal ListPluginParameter(string key, string name, IEnumerable<ListItem> items, int defaultIndex)
@@ -23,6 +23,8 @@ namespace StarmyKnife.PluginInterfaces.Internal
         public string Key => _key;
 
         public string Name => _name;
+        
+        public string? HelpText { get; set; }
 
         public IReadOnlyList<ListItem> Items => _items.AsReadOnly();
 
@@ -68,6 +70,15 @@ namespace StarmyKnife.PluginInterfaces.Internal
                 throw new ArgumentException("Value not found in list");
             }
             _selectedIndex = index;
+        }
+
+        IPluginParameter IPluginParameterInternal.Clone()
+        {
+            var clone = new ListPluginParameter(_key, _name, _items, _selectedIndex)
+            {
+                HelpText = HelpText
+            };
+            return clone;
         }
     }
 }

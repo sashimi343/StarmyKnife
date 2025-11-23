@@ -102,6 +102,8 @@ namespace StarmyKnife.UserControls.ViewModels
             }
         }
 
+        public string HelpText => _pluginHost.HelpText;
+        public bool HasHelpText => _pluginHost.HasHelpText;
 
         public PluginParameterBoxViewModel(PluginHost pluginHost, IEventAggregator eventAggregator)
         {

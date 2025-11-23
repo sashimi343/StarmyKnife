@@ -14,7 +14,7 @@ namespace StarmyKnife.UserControls.ViewModels
 {
     public class ListPluginParameterViewModel : PluginParameterViewModelBase
     {
-        private ListPluginParameter _parameter;
+        private readonly ListPluginParameter _parameter;
         private int _selectedIndex;
 
         public IEnumerable<ListItem> Items => _parameter.Items;

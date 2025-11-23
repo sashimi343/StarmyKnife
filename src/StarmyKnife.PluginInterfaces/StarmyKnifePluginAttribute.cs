@@ -16,5 +16,6 @@ namespace StarmyKnife.PluginInterfaces
 
         public string Name { get; private set; }
         public string Category { get; set; } = "";
+        public string HelpText { get; set; } = "";
     }
 }
