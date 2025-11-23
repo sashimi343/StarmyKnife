@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [1.2.0.0] - 2025-11-23
+
+### Added
+
+* Functionality to temporarily disable the ChainConverter and ListConverter plugins during conversion.
+* HelpText property to plugins and its parameters. This makes it possible to show help information for each plugin and its parameters in the UI.
+* New builtin converters:
+  * Swap endianness of input hex string
+  * Transform CSV row
+
+### Changed
+
+* Improve the usability of the plugin search process.
+* Add an option to ReplaceTextConverter to specify regular expression SingleLine or MultiLine.
+
 ## [1.1.0.0] - 2025-10-18
 
 ### Added
