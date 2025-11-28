@@ -269,6 +269,8 @@ public class ChainConverterViewModel : BindableBase, INotifyDataErrorInfo
     {
         _pluginLoader.UsePrettyValidatorAsConverter = _userSettings.UsePrettyValidatorAsConverter;
         AvailablePlugins.Clear();
-        AvailablePlugins.AddRange(_pluginLoader.GetPlugins<IConverter>());
+        AvailablePlugins.AddRange(_pluginLoader.GetPlugins<IConverter>(out string errorMessage));
+
+        ErrorNotificationHelper.DisplayPluginLoadError(errorMessage);
     }
 }

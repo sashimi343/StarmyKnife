@@ -25,7 +25,23 @@ namespace StarmyKnife.Core.Services
 
         public bool UsePrettyValidatorAsConverter { get; set; } = false;
 
-        public List<PluginHost> GetPlugins<T>() where T : IPlugin
+        public List<PluginHost> GetPlugins<T>(out string errorMessage) where T : IPlugin
+        {
+            try
+            {
+                var plugins = GetPluginsInternal<T>(false);
+                errorMessage = null;
+                return plugins;
+            }
+            catch (CompositionException ex)
+            {
+                var pluginsOnlyBuiltIn = GetPluginsInternal<T>(true);
+                errorMessage = BuildPluginLoadErrorMessage(ex);
+                return pluginsOnlyBuiltIn;
+            }
+        }
+
+        private List<PluginHost> GetPluginsInternal<T>(bool disableExternalPlugins) where T : IPlugin
         {
             var aggregateCatalog = new AggregateCatalog();
 
@@ -34,10 +50,13 @@ namespace StarmyKnife.Core.Services
             aggregateCatalog.Catalogs.Add(catalog);
 
             // Load external plugins
-            foreach (var assembly in _externalPluginAssemblies)
+            if (!disableExternalPlugins)
             {
-                catalog = new AssemblyCatalog(assembly);
-                aggregateCatalog.Catalogs.Add(catalog);
+                foreach (var assembly in _externalPluginAssemblies)
+                {
+                    catalog = new AssemblyCatalog(assembly);
+                    aggregateCatalog.Catalogs.Add(catalog);
+                }
             }
 
             var container = new CompositionContainer(aggregateCatalog);
@@ -47,7 +66,7 @@ namespace StarmyKnife.Core.Services
 
             if (typeof(T) == typeof(IConverter) && UsePrettyValidatorAsConverter)
             {
-                selectedPlugins.AddRange(GetConvertersFromPrettyValidators());
+                selectedPlugins.AddRange(GetConvertersFromPrettyValidators(disableExternalPlugins));
             }
 
             return selectedPlugins;
@@ -58,9 +77,9 @@ namespace StarmyKnife.Core.Services
             _externalPluginAssemblies.Add(assembly);
         }
 
-        private List<PluginHost> GetConvertersFromPrettyValidators()
+        private List<PluginHost> GetConvertersFromPrettyValidators(bool disableExternalPlugins)
         {
-            var prettyValidators = GetPlugins<IPrettyValidator>();
+            var prettyValidators = GetPluginsInternal<IPrettyValidator>(disableExternalPlugins);
             var prettifyConverters = prettyValidators.Where(p => ((IPrettyValidator)p.Plugin).CanPrettify)
                 .Select(p => new PrettifierToConverterAdapter((IPrettyValidator)p.Plugin))
                 .Select(a => new PluginHost(a, a.Metadata))
@@ -71,6 +90,18 @@ namespace StarmyKnife.Core.Services
                 .ToList();
 
             return prettifyConverters.Concat(minifyConverters).ToList();
+        }
+
+        private string BuildPluginLoadErrorMessage(CompositionException ex)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("The external plugins have been disabled due to an error occurring during the loading of the following plugins.");
+            foreach (var error in ex.Errors)
+            {
+                sb.AppendFormat("- {0}", error.Description);
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

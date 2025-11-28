@@ -12,6 +12,6 @@ namespace StarmyKnife.Core.Contracts.Services
         bool UsePrettyValidatorAsConverter { get; set; }
 
         void LoadPlugins(Assembly assembly);
-        List<PluginHost> GetPlugins<T>() where T : IPlugin;
+        List<PluginHost> GetPlugins<T>(out string errorMessage) where T : IPlugin;
     }
 }

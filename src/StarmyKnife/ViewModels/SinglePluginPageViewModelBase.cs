@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using StarmyKnife.Core.Contracts.Services;
 using StarmyKnife.Core.Models;
+using StarmyKnife.Helpers;
 using StarmyKnife.PluginInterfaces;
 using StarmyKnife.UserControls.ViewModels;
 using System;
@@ -13,6 +14,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace StarmyKnife.ViewModels;
 
@@ -31,11 +33,12 @@ public abstract class SinglePluginPageViewModelBase<TPlugin> : BindableBase, INo
         _errors = new ErrorsContainer<string>(OnErrorChanged);
         _pluginLoader = pluginLoader;
 
-        _availablePlugins = new ObservableCollection<PluginHost>(_pluginLoader.GetPlugins<TPlugin>());
+        _availablePlugins = new ObservableCollection<PluginHost>(_pluginLoader.GetPlugins<TPlugin>(out string errorMessage));
         _selectedPlugin = _availablePlugins.FirstOrDefault();
         _pluginBox = new PluginParameterBoxViewModel(_selectedPlugin, eventAggregator);
 
         DeletePluginBoxCommand = new DelegateCommand<PluginParameterBoxViewModel>(DeletePluginBox);
+        ErrorNotificationHelper.DisplayPluginLoadError(errorMessage);
     }
 
     public bool HasErrors
