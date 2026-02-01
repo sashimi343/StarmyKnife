@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [1.2.1.0] - 2026-02-01
+
+### Changed
+
+* UlidGenerator supports output in UUID format.
+* Modify to use only built-in plugins if loading an external plugin fails.
+
 ## [1.2.0.0] - 2025-11-23
 
 ### Added
