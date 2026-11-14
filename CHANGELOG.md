@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ## [Unreleased]
 
+## [1.2.2.0] - 2026-11-14
+
+### Changed
+
+* Migrate target framework from .NET 8 to .NET 10. The framework-dependent package now requires .NET 10 Desktop Runtime.
+
 ## [1.2.1.0] - 2026-02-01
 
 ### Changed

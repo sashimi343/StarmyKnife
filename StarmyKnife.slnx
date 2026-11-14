@@ -1,0 +1,22 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/StarmyKnife.Core/StarmyKnife.Core.csproj" />
+    <Project Path="src/StarmyKnife.PluginInterfaces/StarmyKnife.PluginInterfaces.csproj" />
+    <Project Path="src/StarmyKnife/StarmyKnife.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/StarmyKnife.Core.Tests.xUnit/StarmyKnife.Core.Tests.xUnit.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="tests/StarmyKnife.Tests.xUnit/StarmyKnife.Tests.xUnit.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
+</Solution>

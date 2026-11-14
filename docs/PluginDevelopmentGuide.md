@@ -2,7 +2,7 @@
 
 ## Overview
 
-1. Create a new .NET 8.0 class library project
+1. Create a new .NET 10.0 class library project
 2. Add `StarmyKnife.Core.dll` to your project dependencies
 3. Create a class that implements the following:
   * Inherit `StarmyKnife.Core.Plugins.PluginBase` class

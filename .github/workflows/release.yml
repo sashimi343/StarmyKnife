@@ -17,10 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8.0
+      - name: Setup .NET 10.0
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Extract version from tag
         id: get_version
@@ -48,21 +48,18 @@ jobs:
           }
         shell: pwsh
         
-      # Add MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
-      - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v1.3.1
 
       - name: Clean solution
-        run: dotnet clean ./StarmyKnife.sln
+        run: dotnet clean ./StarmyKnife.slnx
 
       - name: Restore dependencies
-        run: dotnet restore ./StarmyKnife.sln --runtime win-x64
+        run: dotnet restore ./StarmyKnife.slnx --runtime win-x64
 
       - name: Build solution
-        run: dotnet build ./StarmyKnife.sln --configuration Release --no-restore
+        run: dotnet build ./StarmyKnife.slnx --configuration Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test ./StarmyKnife.sln
+        run: dotnet test ./StarmyKnife.slnx
 
       - name: Publish standalone (self-contained) package
         run: |
@@ -74,12 +71,12 @@ jobs:
             -p:PublishReadyToRun=false `
             -p:PublishTrimmed=false `
             -p:IncludeNativeLibrariesForSelfExtract=true `
-            -o .\src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}
+            -o .\src\StarmyKnife\bin\Release\net10.0-windows\publish\StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}
 
       - name: Create ZIP (standalone package)
         run: |
           $zipName = "StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}.zip"
-          Compress-Archive -Path "src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}\" -DestinationPath $zipName
+          Compress-Archive -Path "src\StarmyKnife\bin\Release\net10.0-windows\publish\StarmyKnife-standalone-x64-${{ steps.get_version.outputs.version }}\" -DestinationPath $zipName
         shell: pwsh
 
       - name: Publish Framework-dependent package
@@ -92,12 +89,12 @@ jobs:
             -p:PublishReadyToRun=false `
             -p:PublishTrimmed=false `
             -p:IncludeNativeLibrariesForSelfExtract=true `
-            -o .\src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-${{ steps.get_version.outputs.version }}
+            -o .\src\StarmyKnife\bin\Release\net10.0-windows\publish\StarmyKnife-${{ steps.get_version.outputs.version }}
 
       - name: Create ZIP (Framework-dependent package)
         run: |
           $zipName = "StarmyKnife-${{ steps.get_version.outputs.version }}.zip"
-          Compress-Archive -Path "src\StarmyKnife\bin\Release\net8.0-windows\publish\StarmyKnife-${{ steps.get_version.outputs.version }}\" -DestinationPath $zipName
+          Compress-Archive -Path "src\StarmyKnife\bin\Release\net10.0-windows\publish\StarmyKnife-${{ steps.get_version.outputs.version }}\" -DestinationPath $zipName
         shell: pwsh
 
       - name: Create GitHub Release

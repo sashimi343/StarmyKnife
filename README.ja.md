@@ -9,6 +9,9 @@ StarmyKnifeは文字列に対する様々な処理（変換、生成、バリデ
 [Releases](https://github.com/sashimi343/StarmyKnife/releases)から最新のZIPファイルをダウンロードして任意のフォルダに解凍した後、
 `StarmyKnife.exe`を実行してください。
 
+* `StarmyKnife-standalone-x64-x.x.x.x.zip`: 自己完結型パッケージです。ランタイムのインストールは不要です。
+* `StarmyKnife-x.x.x.x.zip`: フレームワーク依存型パッケージです。[.NET 10 デスクトップランタイム](https://dotnet.microsoft.com/download/dotnet/10.0)が必要です。
+
 ## 機能一覧
 
 ### ChainConverter

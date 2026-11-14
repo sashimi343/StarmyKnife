@@ -6,7 +6,10 @@ The software also supports extensions through plugins to add your own functional
 ## Installation
 
 No installation is required.
-Extract the application zip file to any folder and launch `StarmyKnife.exe`.
+Download the latest zip file from [Releases](https://github.com/sashimi343/StarmyKnife/releases), extract it to any folder and launch `StarmyKnife.exe`.
+
+* `StarmyKnife-standalone-x64-x.x.x.x.zip`: Self-contained package. No additional runtime is required.
+* `StarmyKnife-x.x.x.x.zip`: Framework-dependent package. Requires [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ## Features / Tools
 
